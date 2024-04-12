@@ -4,7 +4,7 @@
     {
         public CharClass()
         {
-            
+
             Classification = "";
             ClassName = "";
             Description = "";

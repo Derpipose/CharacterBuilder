@@ -11,9 +11,9 @@ namespace CharacterBuilderShared.Models
         public RaceVar()
         {
             Race = string.Empty;
-            Variant = string.Empty; 
+            Variant = string.Empty;
             Pick = string.Empty;
-            AddOrMultMana = string.Empty;  
+            AddOrMultMana = string.Empty;
         }
         public int Id { get; set; }
         public string Race { get; set; }

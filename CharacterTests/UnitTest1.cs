@@ -1,4 +1,4 @@
-namespace CharacterTests
+﻿namespace CharacterTests
 {
     public class Tests
     {

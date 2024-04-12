@@ -1,0 +1,42 @@
+
+version: '3.8'
+
+volumes:
+  dbVolume:
+  prometheus:
+  loki:
+  tempo:
+  grafana-data:
+  swag-data:
+
+services:
+
+  character-app:
+    container_name: builder_app
+    build:
+        context: ..
+        dockerfile: ./CharacterBuilderWeb/Dockerfile
+    ports: 
+      - "9874:8080"
+
+  character-api:
+    container_name: builder_api
+    build:
+        context: ..
+        dockerfile: ./CharacterBuilderAPI/Dockerfile
+    ports:
+        - "7568:8080"
+
+
+  postgres:
+    container_name: my_postgres_db
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=myusername
+      - POSTGRES_PASSWORD=mypassword
+      - POSTGRES_DB=mydatabase
+    volumes:
+      - ../CharacterBuilderShared/init.sql:/docker-entrypoint-initdb.d/init.sql
+      -  dbVolume:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"

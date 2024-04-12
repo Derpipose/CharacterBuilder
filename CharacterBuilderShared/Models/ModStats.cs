@@ -10,7 +10,7 @@ namespace CharacterBuilderShared.Models
     {
         public ModStats()
         {
-            
+
         }
         public int Id { get; set; }
         public int ModStr { get; set; }
