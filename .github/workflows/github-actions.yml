@@ -1,0 +1,43 @@
+name: DerpeningProject
+run-name: Derp is derping
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  Deployment:
+    runs-on: self-hosted
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 8.0.102
+
+      - name: Set up tests
+        run: |
+          cd CharacterBuliderShared
+          cd ..
+
+      - name: Formatting Ensured
+        run: dotnet format --verify-no-changes --verbosity diagnostic
+
+      - name: Send MS Teams Notification on Fail
+        if: ${{ failure() }}
+        uses: jdcargile/ms-teams-notification@v1.4
+        with:
+          github-token: ${{ github.token }}
+          ms-teams-webhook-uri: ${{ secrets.TEAMS_WEBHOOK_URL }}
+          notification-summary: Oh No! A derp went wrong!!!
+          notification-color: dc3545
+
+      - name: Send MS Teams Notification on Success
+        if: ${{ success() }}
+        uses: jdcargile/ms-teams-notification@v1.4
+        with:
+          github-token: ${{ github.token }}
+          ms-teams-webhook-uri: ${{ secrets.TEAMS_WEBHOOK_URL }}
+          notification-summary: A Derp did a good!!!
+          notification-color: 3545dc
