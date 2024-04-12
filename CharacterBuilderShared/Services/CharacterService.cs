@@ -17,7 +17,8 @@ namespace CharacterBuilderShared.Models
         }
 
 
-        public async Task<IEnumerable<Character>> GetAll(){
+        public async Task<IEnumerable<Character>> GetAll()
+        {
             return await _DbContext.GetAll();
         }
 
