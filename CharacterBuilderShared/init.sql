@@ -1,4 +1,4 @@
-﻿drop table characterclass;
+﻿
 CREATE TABLE characterclass (
     Id SERIAL primary key,
     Classification VARCHAR(50),
@@ -50,7 +50,6 @@ INSERT INTO characterclass (Classification, ClassName, HitDie, ManaDie, Proficie
 INSERT INTO characterclass (Classification, ClassName, HitDie, ManaDie, ProficiencyCount, MagicBooks, Cantrips, Chances, Description, Starter, SpellCastingModifier, StatFavor1, StatFavor2, ClassSpecific, LanguageCount, ProficiencyStart, VeteranTag) VALUES ('Veteran','Witch Hunter',10,10,5,5,30,4,'No cult is good until it''s destroyed. Witch Hunters are the only class that can use books of the black, a dark spell book that corrupts anyone who doesn''t have the witch hunter''s gift. They aren''t corrupted by black magic and can use cursed items that would be dangerous for anyone else. If they hear about a cult, that cult had better look out, because that witch hunter will take them out.','No','Wis','Wis','Dex','',2,'','Magic');
 
 
-DROP TABLE characterrace;
 
 CREATE TABLE characterrace (
 	Id SERIAL primary key,
@@ -149,7 +148,6 @@ INSERT INTO characterrace (Campaign, SubType, raceName, raceDescription, Starter
 INSERT INTO characterrace (Campaign, SubType, raceName, raceDescription, Starter, Special, Str, Dex, Con, Wis, raceInt, Cha, Pick, BonusMana, AddOrMultMana, Speed, Languages)VALUES ('Fantasy ','Avian ','Kenku','The Kenkus were the engineers for the Aarakocra. These avians lack the ability to fly, with the lack of wings, but they are covered in feathers and take appearances from corvids. Kenku are often much shorter than aarakocra, around 4.5-5.5 foot tall. They love their shiny things and often can let that distract them from their work. ','Yes','',0,0,0,0,0,0,'',0,'',30,'Avian');
 INSERT INTO characterrace (Campaign, SubType, raceName, raceDescription, Starter, Special, Str, Dex, Con, Wis, raceInt, Cha, Pick, BonusMana, AddOrMultMana, Speed, Languages)VALUES ('Fantasy','Human','Tiefling','Much like the Dragonborns, Tieflings are divided into two groups, noble and not noble tieflings. The noble Tieflings are usually quite polite, though they can be fairly snooty if they want to be. They have ','Yes','',0,2,0,0,0,0,'1',10,'Add',30,'Infernal');
 
-drop table racevariant;
 
 CREATE TABLE racevariant (
     Id SERIAL primary Key,
