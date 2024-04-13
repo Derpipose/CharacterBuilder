@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CharacterBuilderShared.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CharacterBuilderAPI.Controllers
 {
@@ -7,23 +8,46 @@ namespace CharacterBuilderAPI.Controllers
     public class PlayerController : ControllerBase
     {
         private readonly ILogger<PlayerController> _logger;
-        // private
+        private PlayerService _PlayerService;
 
-        public PlayerController(ILogger<PlayerController> logger)
+        public PlayerController(ILogger<PlayerController> logger, PlayerService playerService)
         {
             _logger = logger;
+            _PlayerService = playerService;
         }
 
-        // [HttpGet(Name = "GetWeatherForecast")]
-        // public IEnumerable<WeatherForecast> Get()
-        // {
-        //     return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-        //     {
-        //         Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-        //         TemperatureC = Random.Shared.Next(-20, 55),
-        //         Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-        //     })
-        //     .ToArray();
-        // }
+        [HttpGet()]
+        public async Task<IEnumerable<Player>> GetAllPlayers()
+        {
+            return await _PlayerService.GetAllPlayers();
+        }
+
+        [HttpGet("{id}")]
+        public async Task<Player> GetPlayerById(int id)
+        {
+            return await _PlayerService.GetPlayerById(id);
+        }
+
+        [HttpPost()]
+        public async Task AddPlayer(Player player)
+        {
+            await _PlayerService.AddPlayer(player);
+        }
+
+        [HttpDelete("/delete/{id}")]
+        public async Task DeletePlayer(int id)
+        {
+            await _PlayerService.DeletePlayer(id);
+        }
+
+        [HttpPut("/update")]
+        public async Task UpdatePlayer(Player player)
+        {
+            await _PlayerService.UpdatePlayer(player);
+        }
+
+
+
+
     }
 }
