@@ -8,9 +8,12 @@ namespace CharacterBuilderShared.Models
 {
     public partial class ModStatsService
     {
-        public ModStatsService()
+        private readonly ILogger<ModStats> _logger;
+        private BuilderContext _DbContext;
+        public ModStatsService(ILogger<ModStats> logger, BuilderContext buildercontext)
         {
-
+            _logger = logger;
+            _DbContext = buildercontext
         }
 
     }

@@ -3,17 +3,76 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace CharacterBuilderShared.Models
 {
     public partial class PlayerService
     {
-        public PlayerService()
+        private readonly ILogger<Player> _logger;
+        private BuilderContext _DbContext;
+        public PlayerService(ILogger<Player> logger, BuilderContext buildercontext)
+        {
+            _logger = logger;
+            _DbContext = buildercontext;
+        }
+
+        public async Task<IEnumerable<Player>> GetAllPlayers()
+        {
+            var mylist = await _DbContext.PlayerSet.ToListAsync();
+            List<Player> list = new List<Player>();
+            list = mylist;
+            return list;
+        }
+
+        public async Task<Player> GetPlayerById(int id)
+        {
+            var player = await _DbContext.PlayerSet.Where(T => T.Id == id).FirstOrDefaultAsync();
+            if (player == null) { player = new Player(); }
+            return player;
+        }
+
+        public async Task AddPlayer(Player player)
         {
 
+            if (player != null)
+            {
+                _DbContext.PlayerSet.Add(player);
+                await _DbContext.SaveChangesAsync();
+            }
+            // else{
+            //     throw new Exception ("Player not defined properly");
+            // }
         }
 
 
+        public async Task DeletePlayer(int id)
+        {
+            var player = await _DbContext.PlayerSet.Where(T => T.Id == id).FirstOrDefaultAsync();
+            if (player != null)
+            {
+                _DbContext.PlayerSet.Remove(player);
+            }
+            // else {
+            //     throw new Exception ("Player not found or deleted properly");
+            // }
+            await _DbContext.SaveChangesAsync();
+        }
+
+
+        public async Task UpdatePlayer(Player player)
+        {
+            var oldplayer = await _DbContext.PlayerSet.Where(T => T.Id == player.Id).FirstOrDefaultAsync();
+            if (oldplayer != null)
+            {
+                oldplayer.PlayerName = player.PlayerName;
+                oldplayer.Veteran = player.Veteran;
+                oldplayer.Pin = player.Pin;
+            }
+
+            await _DbContext.SaveChangesAsync();
+        }
 
     }
 }
