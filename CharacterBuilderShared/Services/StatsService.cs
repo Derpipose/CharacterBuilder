@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace CharacterBuilderShared.Models
 {
@@ -27,6 +29,7 @@ namespace CharacterBuilderShared.Models
         public async Task GetStatsById(int id)
         {
             var stats = await _DbContext.StatsSet.Where(x => x.Id == id).FirstOrDefaultAsync();
+            if (stats == null) { stats = new Stats(); }
             return stats;
         }
 
@@ -41,7 +44,7 @@ namespace CharacterBuilderShared.Models
 
         public async Task UpdateStats(Stats stats)
         {
-            var oldstats = await _DbContext.StatsSet.Where(x => x.Id == id).FirstOrDefaultAsync();
+            var oldstats = await _DbContext.StatsSet.Where(x => x.Id == stats.Id).FirstOrDefaultAsync();
             if (oldstats != null)
             {
                 oldstats.BaseStr = stats.BaseStr;

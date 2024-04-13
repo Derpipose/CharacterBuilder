@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace CharacterBuilderShared.Models
 {
@@ -14,6 +16,45 @@ namespace CharacterBuilderShared.Models
         {
             _logger = logger;
             _DbContext = buildercontext
+        }
+
+        public async Task ModStats GetModStats(int id)
+        {
+            var modStats = await _DbContext.ModStatsSet.Where(x => x.Id == id);
+            if (modStats == null) { modStats = new ModStats(); }
+        }
+
+        public async Task AddModStats(ModStats modStats)
+        {
+            if (modStats != null)
+            {
+                _DbContext.ModStatsSet.Add(modStats);
+                await _DbContext.SaveChangesAsync();
+            }
+        }
+
+        public async Task UpdateModStats(ModStats modStats)
+        {
+            var oldmodStats = await _DbContext.ModStatsSet.Where(x => x.Id == modStats.Id);
+            if (oldmodStats != null)
+            {
+                oldmodStats.ModStr = modStats.ModStr;
+                oldmodStats.ModDex = modStats.ModDex;
+                oldmodStats.ModCon = modStats.ModCon;
+                oldmodStats.ModInt = modStats.ModInt;
+                oldmodStats.ModWis = modStats.ModWis;
+                oldmodStats.ModCha = modStats.ModCha;
+            }
+        }
+
+        public async Task DeleteModStats(int id)
+        {
+            var modStats = await _DbContext.ModStatsSet.Where(x => x.Id == id);
+            if (modStats != null)
+            {
+                _DbContext.ModStatsSet.Remove(modStats);
+            }
+            await _DbContext.SaveChangesAsync();
         }
 
     }
