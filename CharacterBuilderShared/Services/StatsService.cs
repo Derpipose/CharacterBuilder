@@ -18,7 +18,7 @@ namespace CharacterBuilderShared.Models
             _DbContext = buildercontext;
         }
 
-        public async Task<IEnumberable<Stats>> GetAllStats()
+        public async Task<IEnumerable<Stats>> GetAllStats()
         {
             var stats = await _DbContext.StatsSet.ToListAsync();
             List<Stats> statsList = new List<Stats>();
@@ -26,7 +26,7 @@ namespace CharacterBuilderShared.Models
             return statsList;
         }
 
-        public async Task GetStatsById(int id)
+        public async Task<Stats> GetStatsById(int id)
         {
             var stats = await _DbContext.StatsSet.Where(x => x.Id == id).FirstOrDefaultAsync();
             if (stats == null) { stats = new Stats(); }
@@ -38,7 +38,7 @@ namespace CharacterBuilderShared.Models
             if (stats != null)
             {
                 _DbContext.StatsSet.Add(stats);
-                await _DbContext.StatsSet.SaveChangesAsync();
+                await _DbContext.SaveChangesAsync();
             }
         }
 
@@ -57,7 +57,7 @@ namespace CharacterBuilderShared.Models
                 oldstats.Mana = stats.Mana;
                 oldstats.CharLevel = stats.CharLevel;
             }
-            await _DbContext.StatsSet.SaveChangesAsync()
+            await _DbContext.SaveChangesAsync();
         }
 
         public async Task DeleteStats(int id)

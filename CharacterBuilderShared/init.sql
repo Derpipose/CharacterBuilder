@@ -19,6 +19,101 @@ CREATE TABLE characterclass (
     ProficiencyStart VARCHAR(50),
     VeteranTag VARCHAR(50)
 );
+
+
+
+CREATE TABLE characterrace (
+	Id SERIAL primary key,
+    Campaign VARCHAR(60),
+    SubType VARCHAR(60),
+    raceName VARCHAR(60),
+    raceDescription TEXT,
+    Starter VARCHAR(3),
+    Special VARCHAR(150),
+    Str INT,
+    Dex INT,
+    Con INT,
+    Wis INT,
+    raceInt INT,
+    Cha INT,
+    Pick VARCHAR(4),
+    BonusMana INT,
+    AddOrMultMana VARCHAR(5),
+    Speed INT NULL,
+    Languages VARCHAR(20)
+);
+
+
+
+CREATE TABLE racevariant (
+    Id SERIAL primary Key,
+    Race VARCHAR(50),
+    Variant VARCHAR(50),
+    Str INT,
+    Dex INT,
+    Con INT,
+    raceInt INT,
+    Wis INT,
+    Cha INT,
+    Pick VARCHAR(50),
+    ManaBonus INT,
+    AddOrMultMana VARCHAR(10),
+    SpeedOverride INT
+);
+
+
+
+create table player(
+	Id SERIAL primary Key,
+	playerName VARCHAR(50),
+	veteran BOOL,
+	username VARCHAR(25),
+	pin INT
+	
+	
+);
+
+create table characterstats(
+	Id SERIAL primary Key,
+	baseStr INT,
+    baseDex INT,
+    baseCon INT,
+    baseraceInt INT,
+    baseWis INT,
+    baseCha INT,
+    Health INT,
+    Mana INT,
+    charlevel INT
+);
+
+create table modifiedstats(
+	Id SERIAL primary Key,
+	modStr INT,
+    modDex INT,
+    modCon INT,
+    modraceInt INT,
+    modWis INT,
+    modCha INT
+);
+
+create table playercharacter(
+	Id SERIAL primary Key,
+	PlayerId INT,
+	charName VARCHAR(80),
+	raceId INT NULL,
+	racevariantId INT null,
+	classId INT null,
+	statId INT null,
+	modstatId INT null,
+	FOREIGN KEY (modstatId) REFERENCES modifiedstats(Id),
+	FOREIGN KEY (PlayerId) REFERENCES player(Id),
+    FOREIGN KEY (raceId) REFERENCES characterrace(Id),
+    FOREIGN KEY (racevariantId) REFERENCES racevariant(Id),
+    FOREIGN KEY (classId) REFERENCES characterclass(Id),
+    FOREIGN KEY (statId) REFERENCES characterstats(Id)
+	
+);
+
 INSERT INTO characterclass (Classification, ClassName, HitDie, ManaDie, ProficiencyCount, MagicBooks, Cantrips, Chances, Description, Starter, SpellCastingModifier, StatFavor1, StatFavor2, ClassSpecific, LanguageCount, ProficiencyStart, VeteranTag) VALUES ('Combat','Barbarian',12,4,3,1,15,9,'Eternal rage is a good rage. Barbarians have a couple of routes they can choose to follow. Way of the totem allows you choose an animal that you can share strength with. You turn into a half were creature with that animal, calling upon it during your rage. Next is the way of the berserker. The lower your health, the harder you hit. It''s risky but could be worth the risk of your life. ','Yes','Int','Str','Con','',1,'','');
 INSERT INTO characterclass (Classification, ClassName, HitDie, ManaDie, ProficiencyCount, MagicBooks, Cantrips, Chances, Description, Starter, SpellCastingModifier, StatFavor1, StatFavor2, ClassSpecific, LanguageCount, ProficiencyStart, VeteranTag) VALUES ('Combat','Brawler',12,8,3,1,15,6,'Who needs armor when you have gauntlets? Brawlers need no armor as their fists are enough. Strong as any blade and often more reliable than any forged steel. The brawler specializes in hand to hand combat, throwing punches while up close and personal. ','Yes','Int','Str','Dex','',2,'','');
 INSERT INTO characterclass (Classification, ClassName, HitDie, ManaDie, ProficiencyCount, MagicBooks, Cantrips, Chances, Description, Starter, SpellCastingModifier, StatFavor1, StatFavor2, ClassSpecific, LanguageCount, ProficiencyStart, VeteranTag) VALUES ('Combat','Crusader',10,10,4,3,15,5,'Evil, undead, sickly creatures, all must be rid. Crusaders spend their time making sure that the world is cured from the sickness known as corruption. Wielding a white book or two known as Celestia, they are able to deal great amounts of damage to dark tainted creatures such as undead. Unique to Crusaders, at half health, they regain all of their mana in a burst of energy.','Yes','Int','Int','Con','',2,'','');
@@ -49,28 +144,6 @@ INSERT INTO characterclass (Classification, ClassName, HitDie, ManaDie, Proficie
 INSERT INTO characterclass (Classification, ClassName, HitDie, ManaDie, ProficiencyCount, MagicBooks, Cantrips, Chances, Description, Starter, SpellCastingModifier, StatFavor1, StatFavor2, ClassSpecific, LanguageCount, ProficiencyStart, VeteranTag) VALUES ('Veteran','Sage',8,10,4,3,15,7,'No information is currently avaliable. Please check back later and hopefully Riley and Tree have this updated. Sorry about any inconvience!','No','Wis','Wis','Str','',1,'','Utility');
 INSERT INTO characterclass (Classification, ClassName, HitDie, ManaDie, ProficiencyCount, MagicBooks, Cantrips, Chances, Description, Starter, SpellCastingModifier, StatFavor1, StatFavor2, ClassSpecific, LanguageCount, ProficiencyStart, VeteranTag) VALUES ('Veteran','Witch Hunter',10,10,5,5,30,4,'No cult is good until it''s destroyed. Witch Hunters are the only class that can use books of the black, a dark spell book that corrupts anyone who doesn''t have the witch hunter''s gift. They aren''t corrupted by black magic and can use cursed items that would be dangerous for anyone else. If they hear about a cult, that cult had better look out, because that witch hunter will take them out.','No','Wis','Wis','Dex','',2,'','Magic');
 
-
-
-CREATE TABLE characterrace (
-	Id SERIAL primary key,
-    Campaign VARCHAR(60),
-    SubType VARCHAR(60),
-    raceName VARCHAR(60),
-    raceDescription TEXT,
-    Starter VARCHAR(3),
-    Special VARCHAR(150),
-    Str INT,
-    Dex INT,
-    Con INT,
-    Wis INT,
-    raceInt INT,
-    Cha INT,
-    Pick VARCHAR(4),
-    BonusMana INT,
-    AddOrMultMana VARCHAR(5),
-    Speed INT NULL,
-    Languages VARCHAR(20)
-);
 
 INSERT INTO characterrace (Campaign, SubType, raceName, raceDescription, Starter, Special, Str, Dex, Con, Wis, raceInt, Cha, Pick, BonusMana, AddOrMultMana, Speed, Languages)VALUES ('Fantasy','Beastial','Ulfgar','Ulfgar are the wolven cousins of the houndsmen. They are often brutish and tend to be more barbaric than the other races. They honestly couldn’t care more about what crosses their path, they’d gladly take it out and use their bones as a nice chew toy. Their demeanor tends to trend more towards viking culture than anything else. It’s rare to have a socialized and friendly ulfgar.','No','',2,0,2,0,-2,0,'',-10,'Add',35,'Norfic');
 INSERT INTO characterrace (Campaign, SubType, raceName, raceDescription, Starter, Special, Str, Dex, Con, Wis, raceInt, Cha, Pick, BonusMana, AddOrMultMana, Speed, Languages)VALUES ('Fantasy','Lizardfolk Greater','Feathered','Feathered lizardfolk are some of the most regal of the lizardfolk. These are often trained in magery as they have a large surplus of mana and pick up on spells quickly. They are adorned with feathers all over, tucked between scale patches. They usually have a colorful array of feathers.','No','',0,0,0,2,1,0,'',25,'Add',30,'Toatalca');
@@ -149,21 +222,6 @@ INSERT INTO characterrace (Campaign, SubType, raceName, raceDescription, Starter
 INSERT INTO characterrace (Campaign, SubType, raceName, raceDescription, Starter, Special, Str, Dex, Con, Wis, raceInt, Cha, Pick, BonusMana, AddOrMultMana, Speed, Languages)VALUES ('Fantasy','Human','Tiefling','Much like the Dragonborns, Tieflings are divided into two groups, noble and not noble tieflings. The noble Tieflings are usually quite polite, though they can be fairly snooty if they want to be. They have ','Yes','',0,2,0,0,0,0,'1',10,'Add',30,'Infernal');
 
 
-CREATE TABLE racevariant (
-    Id SERIAL primary Key,
-    Race VARCHAR(50),
-    Variant VARCHAR(50),
-    Str INT,
-    Dex INT,
-    Con INT,
-    raceInt INT,
-    Wis INT,
-    Cha INT,
-    Pick VARCHAR(50),
-    ManaBonus INT,
-    AddOrMultMana VARCHAR(10),
-    SpeedOverride INT
-);
 
 INSERT INTO racevariant (Race, Variant, Str, Dex, Con, raceInt, Wis, Cha, Pick, ManaBonus, AddOrMultMana, SpeedOverride) VALUES ('Kay''asa','Strength',2,0,1,0,0,0,'',0,'',NULL);
 INSERT INTO racevariant (Race, Variant, Str, Dex, Con, raceInt, Wis, Cha, Pick, ManaBonus, AddOrMultMana, SpeedOverride) VALUES ('Kay''asa','Dexterity',0,2,0,1,0,0,'',0,'',45);
@@ -182,55 +240,3 @@ INSERT INTO racevariant (Race, Variant, Str, Dex, Con, raceInt, Wis, Cha, Pick, 
 INSERT INTO racevariant (Race, Variant, Str, Dex, Con, raceInt, Wis, Cha, Pick, ManaBonus, AddOrMultMana, SpeedOverride) VALUES ('Aarakocra','Hawk',0,2,0,0,0,0,'1',0,'',NULL);
 INSERT INTO racevariant (Race, Variant, Str, Dex, Con, raceInt, Wis, Cha, Pick, ManaBonus, AddOrMultMana, SpeedOverride) VALUES ('Aarakocra','Eagle',2,1,0,0,0,0,'',0,'',NULL);
 INSERT INTO racevariant (Race, Variant, Str, Dex, Con, raceInt, Wis, Cha, Pick, ManaBonus, AddOrMultMana, SpeedOverride) VALUES ('Aarakocra','Sea Bird',0,0,2,0,0,-1,'1',0,'',NULL);
-
-
-create table player(
-	Id SERIAL primary Key,
-	playerName VARCHAR(50),
-	veteran BOOL,
-	username VARCHAR(25),
-	pin INT
-	
-	
-);
-
-create table characterstats(
-	Id SERIAL primary Key,
-	baseStr INT,
-    baseDex INT,
-    baseCon INT,
-    baseraceInt INT,
-    baseWis INT,
-    baseCha INT,
-    Health INT,
-    Mana INT,
-    charlevel INT
-);
-
-create table modifiedstats(
-	Id SERIAL primary Key,
-	modStr INT,
-    modDex INT,
-    modCon INT,
-    modraceInt INT,
-    modWis INT,
-    modCha INT
-);
-
-create table playercharacter(
-	Id SERIAL primary Key,
-	PlayerId INT,
-	charName VARCHAR(80),
-	raceId INT NULL,
-	racevariantId INT null,
-	classId INT null,
-	statId INT null,
-	modstatId INT null,
-	FOREIGN KEY (modstatId) REFERENCES modifiedstats(Id),
-	FOREIGN KEY (PlayerId) REFERENCES player(Id),
-    FOREIGN KEY (raceId) REFERENCES characterrace(Id),
-    FOREIGN KEY (racevariantId) REFERENCES racevariant(Id),
-    FOREIGN KEY (classId) REFERENCES characterclass(Id),
-    FOREIGN KEY (statId) REFERENCES characterstats(Id)
-	
-);

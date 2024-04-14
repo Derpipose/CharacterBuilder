@@ -19,29 +19,29 @@ namespace CharacterBuilderAPI.Controllers
         [HttpGet()]
         public async Task<IEnumerable<Stats>> GetAllStats()
         {
-            await _StatsService.GetAllStats();
+            return await _StatsService.GetAllStats();
         }
 
         [HttpGet("{id}")]
-        public async Task<Stats> GetById(int id)
+        public async Task<Stats> GetStatsById(int id)
         {
-            await _StatsService.GetStatsById(id);
+            return await _StatsService.GetStatsById(id);
         }
 
         [HttpPost()]
-        public async Task Add(Stats stats)
+        public async Task AddStats(Stats stats)
         {
             await _StatsService.AddStats(stats);
         }
 
-        [HttpDelete("/delete/{id}")]
-        public async Task Delete(int id)
+        [HttpDelete("{id}")]
+        public async Task DeleteStats(int id)
         {
             await _StatsService.DeleteStats(id);
         }
 
-        [HttpPut("/update")]
-        public async Task Update(Stats stats)
+        [HttpPut()]
+        public async Task UpdateStats(Stats stats)
         {
             await _StatsService.UpdateStats(stats);
         }

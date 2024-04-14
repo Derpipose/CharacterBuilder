@@ -8,39 +8,39 @@ namespace CharacterBuilderAPI.Controllers
     public class CharRaceController : ControllerBase
     {
         private readonly ILogger<CharRaceController> _logger;
-        private CharRace _CharRace;
+        private CharRaceService _CharRaceService;
 
-        public CharRaceController(ILogger<CharRaceController> logger, CharRace charRace)
+        public CharRaceController(ILogger<CharRaceController> logger, CharRaceService charRaceService)
         {
             _logger = logger;
-            _CharRace = charRace;
+            _CharRaceService = charRaceService;
         }
 
         [HttpGet()]
-        public async Task<IEnumerable<>> GetAllRaces()
+        public async Task<IEnumerable<CharRace>> GetAllRaces()
         {
-            await _CharRace.GetAllRaces();
+            return await _CharRaceService.GetAllRaces();
         }
 
         [HttpGet("/campaign/{campaign}")]
-        public async Task<> GetRacesByCampaign(string campaign)
+        public async Task<IEnumerable<CharRace>> GetRacesByCampaign(string campaign)
         {
-            await _CharRace.GetAllRacesByCampaign(campaign);
+            return await _CharRaceService.GetAllRacesByCampaign(campaign);
         }
 
 
         [HttpGet("{id}")]
-        public async Task<> GetRaceById(int id)
+        public async Task<CharRace> GetRaceById(int id)
         {
-            await _CharRace.GetRaceById(id);
+            return await _CharRaceService.GetRaceById(id);
         }
 
 
 
-        [HttpPut("/update")]
-        public async Task Update(CharRace charRace)
+        [HttpPut("")]
+        public async Task UpdateRace(CharRace charRace)
         {
-            await _CharRace.UpdateRace(charRace);
+            await _CharRaceService.UpdateRace(charRace);
         }
 
 

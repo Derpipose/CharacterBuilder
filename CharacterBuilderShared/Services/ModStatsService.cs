@@ -15,13 +15,14 @@ namespace CharacterBuilderShared.Models
         public ModStatsService(ILogger<ModStats> logger, BuilderContext buildercontext)
         {
             _logger = logger;
-            _DbContext = buildercontext
+            _DbContext = buildercontext;
         }
 
-        public async Task ModStats GetModStats(int id)
+        public async Task<ModStats> GetModStats(int id)
         {
-            var modStats = await _DbContext.ModStatsSet.Where(x => x.Id == id);
+            var modStats = await _DbContext.ModStatsSet.Where(x => x.Id == id).FirstOrDefaultAsync();
             if (modStats == null) { modStats = new ModStats(); }
+            return modStats;
         }
 
         public async Task AddModStats(ModStats modStats)
@@ -35,7 +36,7 @@ namespace CharacterBuilderShared.Models
 
         public async Task UpdateModStats(ModStats modStats)
         {
-            var oldmodStats = await _DbContext.ModStatsSet.Where(x => x.Id == modStats.Id);
+            var oldmodStats = await _DbContext.ModStatsSet.Where(x => x.Id == modStats.Id).FirstOrDefaultAsync();
             if (oldmodStats != null)
             {
                 oldmodStats.ModStr = modStats.ModStr;
@@ -49,7 +50,7 @@ namespace CharacterBuilderShared.Models
 
         public async Task DeleteModStats(int id)
         {
-            var modStats = await _DbContext.ModStatsSet.Where(x => x.Id == id);
+            var modStats = await _DbContext.ModStatsSet.Where(x => x.Id == id).FirstOrDefaultAsync();
             if (modStats != null)
             {
                 _DbContext.ModStatsSet.Remove(modStats);

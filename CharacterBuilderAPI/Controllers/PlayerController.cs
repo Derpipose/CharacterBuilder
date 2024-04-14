@@ -34,13 +34,13 @@ namespace CharacterBuilderAPI.Controllers
             await _PlayerService.AddPlayer(player);
         }
 
-        [HttpDelete("/delete/{id}")]
+        [HttpDelete("{id}")]
         public async Task DeletePlayer(int id)
         {
             await _PlayerService.DeletePlayer(id);
         }
 
-        [HttpPut("/update")]
+        [HttpPut("")]
         public async Task UpdatePlayer(Player player)
         {
             await _PlayerService.UpdatePlayer(player);

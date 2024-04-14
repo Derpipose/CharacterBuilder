@@ -35,11 +35,12 @@ namespace CharacterBuilderShared.Models
             return list;
         }
 
-        public async Task<IEnumerable<Character>> GetCharacterById(int id)
+        public async Task<Character> GetCharacterById(int id)
         {
             var character = await _DbContext.CharacterSet.Where(x => x.Id == id).FirstOrDefaultAsync();
-            if (character == null) { character = new Character}
-            return character;
+            if (character == null) { character = new Character(); }
+            Character character1 = character;
+            return character1;
         }
 
         public async Task AddCharacter(Character character)
@@ -60,7 +61,7 @@ namespace CharacterBuilderShared.Models
             if (character != null)
             {
                 _DbContext.CharacterSet.Remove(character);
-                return await _DbContext.SaveChangesAsync();
+                await _DbContext.SaveChangesAsync();
             }
 
         }

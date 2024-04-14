@@ -8,36 +8,37 @@ namespace CharacterBuilderAPI.Controllers
     public class CharClassController : ControllerBase
     {
         private readonly ILogger<CharClassController> _logger;
-        private CharClass _CharClass;
+        private CharClassService _CharClassService;
 
-        public CharClassController(ILogger<CharClassController> logger, CharClass charClass)
+        public CharClassController(ILogger<CharClassController> logger, CharClassService charClass)
         {
             _logger = logger;
-            _CharClass = charClass;
+            _CharClassService = charClass;
         }
 
         [HttpGet()]
-        public async Task<IEnumerable<>> GetAll()
+        public async Task<IEnumerable<CharClass>> GetAllCharClasses()
         {
-            await _CharClass.GetAllCharClasses();
+            return await _CharClassService.GetAllCharClasses();
+
         }
 
         [HttpGet("/type/{type}")]
-        public async Task<> GetById(string type)
+        public async Task<IEnumerable<CharClass>> GetCharClassByType(string type)
         {
-            await _CharClass.GetAllCharClassByType(type);
+            return await _CharClassService.GetAllCharClassByType(type);
         }
 
         [HttpGet("{id}")]
-        public async Task<> GetById(int id)
+        public async Task<CharClass> GetCharClassById(int id)
         {
-            await _CharClass.GetCharClassById(id);
+            return await _CharClassService.GetCharClassById(id);
         }
 
-        [HttpPut("/update")]
-        public async Task Update(CharClass charClass)
+        [HttpPut()]
+        public async Task UpdateCharClass(CharClass charClass)
         {
-            await _CharClass.UpdateClass(charClass);
+            await _CharClassService.UpdateClass(charClass);
         }
 
 

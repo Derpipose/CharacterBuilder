@@ -37,7 +37,7 @@ namespace CharacterBuilderShared.Models
         public async Task<CharClass> GetCharClassById(int id)
         {
             var charclass = await _DbContext.CharClassSet.Where(x => x.Id == id).FirstOrDefaultAsync();
-            if (charclass == null) { throw new NotFoundException("Class not found!"); }
+            if (charclass == null) { throw new Exception("Class not found!"); }
             return charclass;
 
         }

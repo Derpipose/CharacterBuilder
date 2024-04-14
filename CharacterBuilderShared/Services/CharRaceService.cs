@@ -22,7 +22,7 @@ namespace CharacterBuilderShared.Models
         public async Task<IEnumerable<CharRace>> GetAllRaces()
         {
             var mylist = await _DbContext.CharRaceSet.ToListAsync();
-            List<CharRace> list = new List<CharRace>;
+            List<CharRace> list = new List<CharRace>();
             list = mylist;
             return list;
         }
@@ -30,16 +30,15 @@ namespace CharacterBuilderShared.Models
         public async Task<IEnumerable<CharRace>> GetAllRacesByCampaign(string campaign)
         {
             var mylist = await _DbContext.CharRaceSet.Where(x => x.Campaign == campaign).ToListAsync();
-            List<CharRace> list = new List<CharRace>;
+            List<CharRace> list = new List<CharRace>();
             list = mylist;
             return list;
         }
 
         public async Task<CharRace> GetRaceById(int id)
         {
-            var race = await _DbContext.CharRaceSet.Where(x => x.Id == id).FirstOrDefaultAsync;
-            if (race == null) { throw new NotFoundException("Race not found!"); }
-            return race;
+            var race = await _DbContext.CharRaceSet.Where(x => x.Id == id).FirstOrDefaultAsync();
+            return race == null ? throw new Exception("Race not found!") : race;
         }
 
         public async Task UpdateRace(CharRace race)
@@ -61,7 +60,7 @@ namespace CharacterBuilderShared.Models
                 oldrace.BonusMana = race.BonusMana;
                 oldrace.AddOrMultMana = race.AddOrMultMana;
             }
-            await _DbContext.CharRaceSet.SaveChangesAsync();
+            await _DbContext.SaveChangesAsync();
         }
 
 

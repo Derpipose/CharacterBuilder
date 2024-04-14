@@ -8,7 +8,7 @@ namespace CharacterBuilderAPI.Controllers
     public class CharacterController : ControllerBase
     {
         private readonly ILogger<CharacterController> _logger;
-        private CharacterService _CharacterService
+        private CharacterService _CharacterService;
 
         public CharacterController(ILogger<CharacterController> logger, CharacterService characterService)
         {
@@ -23,7 +23,7 @@ namespace CharacterBuilderAPI.Controllers
         }
 
         [HttpGet("/player/{id}")]
-        public async Task<Character> GetAllCharactersByPlayerId(int id)
+        public async Task<IEnumerable<Character>> GetAllCharactersByPlayerId(int id)
         {
             return await _CharacterService.GetAllCharactersByPlayer(id);
         }
@@ -32,23 +32,23 @@ namespace CharacterBuilderAPI.Controllers
         [HttpGet("{id}")]
         public async Task<Character> GetCharacterById(int id)
         {
-            return await _CharacterService.GetCharacterById();
+            return await _CharacterService.GetCharacterById(id);
         }
 
         [HttpPost()]
-        public async Task Add(Character character)
+        public async Task AddCharacter(Character character)
         {
             await _CharacterService.AddCharacter(character);
         }
 
-        [HttpDelete("/delete/{id}")]
-        public async Task Delete(int id)
+        [HttpDelete("{id}")]
+        public async Task DeleteCharacter(int id)
         {
             await _CharacterService.DeleteCharacter(id);
         }
 
-        [HttpPut("/update")]
-        public async Task Update(Character character)
+        [HttpPut()]
+        public async Task UpdateCharacter(Character character)
         {
             await _CharacterService.UpdateCharacter(character);
         }

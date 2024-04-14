@@ -28,7 +28,7 @@ namespace CharacterBuilderShared.Models
 
         public async Task<IEnumerable<RaceVar>> GetAllRaceVarByRace(string charRace)
         {
-            var mylist = await _DbContext.RaceVarSet.Where(x => x.Race = charRace).ToListAsync();
+            var mylist = await _DbContext.RaceVarSet.Where(x => x.Race == charRace).ToListAsync();
             List<RaceVar> list = new List<RaceVar>();
             list = mylist;
             return list;
@@ -37,7 +37,7 @@ namespace CharacterBuilderShared.Models
         public async Task<RaceVar> GetRaceVarById(int id)
         {
             var raceVar = await _DbContext.RaceVarSet.Where(x => x.Id == id).FirstOrDefaultAsync();
-            if (raceVar == null) { throw new NotFoundException("Race Variant not found!"); }
+            if (raceVar == null) { throw new Exception("Race Variant not found!"); }
             return raceVar;
         }
 
@@ -59,11 +59,11 @@ namespace CharacterBuilderShared.Models
 
             }
 
-            await _DbContext.RaceVarSet.SaveChangesAsync()
+            await _DbContext.SaveChangesAsync();
         }
 
     }
 
 
 }
-}
+

@@ -16,7 +16,7 @@ namespace CharacterBuilderShared.Models
         public DbSet<Player> PlayerSet => Set<Player>();
         public DbSet<RaceVar> RaceVarSet => Set<RaceVar>();
         public DbSet<Stats> StatsSet => Set<Stats>();
-        public BuilderContext()
+        public BuilderContext(DbContextOptions<BuilderContext> options) : base(options)
         {
 
         }

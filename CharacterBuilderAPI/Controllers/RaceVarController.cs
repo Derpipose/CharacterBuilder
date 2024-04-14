@@ -8,34 +8,35 @@ namespace CharacterBuilderAPI.Controllers
     public class RaceVarController : ControllerBase
     {
         private readonly ILogger<RaceVarController> _logger;
-        private RaceVar _RaceVar;
+        private RaceVarService _RaceVarService;
 
-        public RaceVarController(ILogger<RaceVarController> logger, RaceVar raceVar)
+        public RaceVarController(ILogger<RaceVarController> logger, RaceVarService raceVarService)
         {
             _logger = logger;
-            _RaceVar = raceVar;
+            _RaceVarService = raceVarService;
         }
 
         [HttpGet()]
-        public async Task<IEnumerable<>> GetAllRaceVar()
+        public async Task<IEnumerable<RaceVar>> GetAllRaceVar()
         {
-            await _RaceVar.GetAllRaceVar();
+            return await _RaceVarService.GetAllRaceVar();
         }
 
         [HttpGet("/race/{race}")]
-        public async Task<> GetAllRaceVarByRace(string race)
+        public async Task<IEnumerable<RaceVar>> GetAllRaceVarByRace(string race)
         {
-            await _RaceVar.GetAllRaceVarByRace(race);
+            return await _RaceVarService.GetAllRaceVarByRace(race);
         }
         [HttpGet("{id}")]
-        public async Task<> GetRaceVarById(int id)
+        public async Task<RaceVar> GetRaceVarById(int id)
         {
+            return await _RaceVarService.GetRaceVarById(id);
         }
 
-        [HttpPut("/update")]
+        [HttpPut()]
         public async Task Update(RaceVar raceVar)
         {
-            await _RaceVar.UpdateRaceVar(raceVar);
+            await _RaceVarService.UpdateRaceVar(raceVar);
         }
 
 

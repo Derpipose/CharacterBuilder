@@ -8,38 +8,38 @@ namespace CharacterBuilderAPI.Controllers
     public class ModStatsController : ControllerBase
     {
         private readonly ILogger<ModStatsController> _logger;
-        private ModStats _ModStats;
+        private ModStatsService _ModStatsService;
 
-        public ModStatsController(ILogger<ModStatsController> logger, ModStats modStats)
+        public ModStatsController(ILogger<ModStatsController> logger, ModStatsService modStatsService)
         {
             _logger = logger;
-            _ModStats = modStats;
+            _ModStatsService = modStatsService;
         }
 
 
 
         [HttpGet("{id}")]
-        public async Task<> GetById(int id)
+        public async Task<ModStats> GetModStatsById(int id)
         {
-            await _ModStats.GetModStats(id);
+            return await _ModStatsService.GetModStats(id);
         }
 
         [HttpPost()]
-        public async Task Add(ModStats modStats)
+        public async Task AddModStats(ModStats modStats)
         {
-            await _ModStats.AddModStats(modStats);
+            await _ModStatsService.AddModStats(modStats);
         }
 
-        [HttpDelete("/delete/{id}")]
-        public async Task Delete(int id)
+        [HttpDelete("{id}")]
+        public async Task DeleteModStats(int id)
         {
-            await _ModStats.DeleteModStats(id);
+            await _ModStatsService.DeleteModStats(id);
         }
 
-        [HttpPut("/update")]
-        public async Task Update(ModStats modStats)
+        [HttpPut()]
+        public async Task UpdateModStats(ModStats modStats)
         {
-            await _ModStats.UpdateModStats(modStats);
+            await _ModStatsService.UpdateModStats(modStats);
         }
 
 
