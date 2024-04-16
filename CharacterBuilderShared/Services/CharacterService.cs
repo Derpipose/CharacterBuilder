@@ -21,7 +21,7 @@ namespace CharacterBuilderShared.Models
 
         public async Task<IEnumerable<Character>> GetAllCharacters()
         {
-            var mylist = await _DbContext.CharacterSet.ToListAsync();
+            var mylist = await _DbContext.PlayerCharacter.ToListAsync();
             List<Character> list = new List<Character>();
             list = mylist;
             return list;
@@ -29,7 +29,7 @@ namespace CharacterBuilderShared.Models
 
         public async Task<IEnumerable<Character>> GetAllCharactersByPlayer(int id)
         {
-            var mylist = await _DbContext.CharacterSet.Where(x => x.PlayerId == id).ToListAsync();
+            var mylist = await _DbContext.PlayerCharacter.Where(x => x.PlayerId == id).ToListAsync();
             List<Character> list = new List<Character>();
             list = mylist;
             return list;
@@ -37,7 +37,7 @@ namespace CharacterBuilderShared.Models
 
         public async Task<Character> GetCharacterById(int id)
         {
-            var character = await _DbContext.CharacterSet.Where(x => x.Id == id).FirstOrDefaultAsync();
+            var character = await _DbContext.PlayerCharacter.Where(x => x.Id == id).FirstOrDefaultAsync();
             if (character == null) { character = new Character(); }
             Character character1 = character;
             return character1;
@@ -47,7 +47,7 @@ namespace CharacterBuilderShared.Models
         {
             if (character != null)
             {
-                _DbContext.CharacterSet.Add(character);
+                _DbContext.PlayerCharacter.Add(character);
                 await _DbContext.SaveChangesAsync();
             }
             // else{
@@ -57,10 +57,10 @@ namespace CharacterBuilderShared.Models
 
         public async Task DeleteCharacter(int id)
         {
-            var character = await _DbContext.CharacterSet.Where(x => x.Id == id).FirstOrDefaultAsync();
+            var character = await _DbContext.PlayerCharacter.Where(x => x.Id == id).FirstOrDefaultAsync();
             if (character != null)
             {
-                _DbContext.CharacterSet.Remove(character);
+                _DbContext.PlayerCharacter.Remove(character);
                 await _DbContext.SaveChangesAsync();
             }
 
@@ -68,14 +68,14 @@ namespace CharacterBuilderShared.Models
 
         public async Task UpdateCharacter(Character character)
         {
-            var oldcharacter = await _DbContext.CharacterSet.Where(x => x.Id == character.Id).FirstOrDefaultAsync();
+            var oldcharacter = await _DbContext.PlayerCharacter.Where(x => x.Id == character.Id).FirstOrDefaultAsync();
             if (oldcharacter != null)
             {
                 oldcharacter.CharName = character.CharName;
                 oldcharacter.RaceId = character.RaceId;
                 oldcharacter.RaceVariantId = character.RaceVariantId;
-                oldcharacter.StatId = character.StatId;
-                oldcharacter.ModStatId = character.ModStatId;
+                oldcharacter.StatsId = character.StatsId;
+                oldcharacter.ModStatsId = character.ModStatsId;
             }
 
             await _DbContext.SaveChangesAsync();

@@ -20,7 +20,7 @@ namespace CharacterBuilderShared.Models
 
         public async Task<IEnumerable<CharClass>> GetAllCharClasses()
         {
-            var list = await _DbContext.CharClassSet.ToListAsync();
+            var list = await _DbContext.CharacterClass.ToListAsync();
             List<CharClass> mylist = new List<CharClass>();
             mylist = list;
             return mylist;
@@ -28,7 +28,7 @@ namespace CharacterBuilderShared.Models
 
         public async Task<IEnumerable<CharClass>> GetAllCharClassByType(string type)
         {
-            var list = await _DbContext.CharClassSet.Where(x => x.Classification == type).ToListAsync();
+            var list = await _DbContext.CharacterClass.Where(x => x.Classification == type).ToListAsync();
             var mylist = new List<CharClass>();
             mylist = list;
             return mylist;
@@ -36,7 +36,7 @@ namespace CharacterBuilderShared.Models
 
         public async Task<CharClass> GetCharClassById(int id)
         {
-            var charclass = await _DbContext.CharClassSet.Where(x => x.Id == id).FirstOrDefaultAsync();
+            var charclass = await _DbContext.CharacterClass.Where(x => x.Id == id).FirstOrDefaultAsync();
             if (charclass == null) { throw new Exception("Class not found!"); }
             return charclass;
 
@@ -44,7 +44,7 @@ namespace CharacterBuilderShared.Models
 
         public async Task UpdateClass(CharClass charclass)
         {
-            var oldcharclass = await _DbContext.CharClassSet.Where(x => x.Id == charclass.Id).FirstOrDefaultAsync();
+            var oldcharclass = await _DbContext.CharacterClass.Where(x => x.Id == charclass.Id).FirstOrDefaultAsync();
             if (oldcharclass != null)
             {
                 oldcharclass.HitDie = charclass.HitDie;

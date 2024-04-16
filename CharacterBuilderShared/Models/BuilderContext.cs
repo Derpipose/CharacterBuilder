@@ -9,13 +9,13 @@ namespace CharacterBuilderShared.Models
 {
     public class BuilderContext : DbContext
     {
-        public DbSet<Character> CharacterSet => Set<Character>();
-        public DbSet<CharClass> CharClassSet => Set<CharClass>();
-        public DbSet<CharRace> CharRaceSet => Set<CharRace>();
-        public DbSet<ModStats> ModStatsSet => Set<ModStats>();
-        public DbSet<Player> PlayerSet => Set<Player>();
-        public DbSet<RaceVar> RaceVarSet => Set<RaceVar>();
-        public DbSet<Stats> StatsSet => Set<Stats>();
+        public DbSet<Character> PlayerCharacter => Set<Character>();
+        public DbSet<CharClass> CharacterClass => Set<CharClass>();
+        public DbSet<CharRace> CharacterRace => Set<CharRace>();
+        public DbSet<ModStats> ModifiedStats => Set<ModStats>();
+        public DbSet<Player> Player => Set<Player>();
+        public DbSet<RaceVar> RaceVariant => Set<RaceVar>();
+        public DbSet<Stats> CharacterStats => Set<Stats>();
         public BuilderContext(DbContextOptions<BuilderContext> options) : base(options)
         {
 

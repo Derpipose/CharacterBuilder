@@ -20,7 +20,7 @@ namespace CharacterBuilderShared.Models
 
         public async Task<IEnumerable<Stats>> GetAllStats()
         {
-            var stats = await _DbContext.StatsSet.ToListAsync();
+            var stats = await _DbContext.CharacterStats.ToListAsync();
             List<Stats> statsList = new List<Stats>();
             statsList = stats;
             return statsList;
@@ -28,7 +28,7 @@ namespace CharacterBuilderShared.Models
 
         public async Task<Stats> GetStatsById(int id)
         {
-            var stats = await _DbContext.StatsSet.Where(x => x.Id == id).FirstOrDefaultAsync();
+            var stats = await _DbContext.CharacterStats.Where(x => x.Id == id).FirstOrDefaultAsync();
             if (stats == null) { stats = new Stats(); }
             return stats;
         }
@@ -37,14 +37,14 @@ namespace CharacterBuilderShared.Models
         {
             if (stats != null)
             {
-                _DbContext.StatsSet.Add(stats);
+                _DbContext.CharacterStats.Add(stats);
                 await _DbContext.SaveChangesAsync();
             }
         }
 
         public async Task UpdateStats(Stats stats)
         {
-            var oldstats = await _DbContext.StatsSet.Where(x => x.Id == stats.Id).FirstOrDefaultAsync();
+            var oldstats = await _DbContext.CharacterStats.Where(x => x.Id == stats.Id).FirstOrDefaultAsync();
             if (oldstats != null)
             {
                 oldstats.BaseStr = stats.BaseStr;
@@ -62,10 +62,10 @@ namespace CharacterBuilderShared.Models
 
         public async Task DeleteStats(int id)
         {
-            var stats = await _DbContext.StatsSet.Where(x => x.Id == id).FirstOrDefaultAsync();
+            var stats = await _DbContext.CharacterStats.Where(x => x.Id == id).FirstOrDefaultAsync();
             if (stats != null)
             {
-                _DbContext.StatsSet.Remove(stats);
+                _DbContext.CharacterStats.Remove(stats);
             }
             await _DbContext.SaveChangesAsync();
         }

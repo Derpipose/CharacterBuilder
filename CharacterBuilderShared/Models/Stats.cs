@@ -11,7 +11,7 @@ namespace CharacterBuilderShared.Models
 
         public Stats()
         {
-
+            CharLevel = 1;
 
         }
 
@@ -24,6 +24,6 @@ namespace CharacterBuilderShared.Models
         public int BaseCha { get; set; }
         public int Health { get; set; }
         public int Mana { get; set; }
-        public int CharLevel { get; set; } = 1;
+        public int CharLevel { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace CharacterBuilderShared.Models
         public int? RaceId { get; set; }
         public int? RaceVariantId { get; set; }
         public int? ClassId { get; set; }
-        public int? StatId { get; set; }
-        public int? ModStatId { get; set; }
+        public int? StatsId { get; set; }
+        public int? ModStatsId { get; set; }
     }
 }

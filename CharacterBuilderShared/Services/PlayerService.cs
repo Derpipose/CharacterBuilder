@@ -20,7 +20,7 @@ namespace CharacterBuilderShared.Models
 
         public async Task<IEnumerable<Player>> GetAllPlayers()
         {
-            var mylist = await _DbContext.PlayerSet.ToListAsync();
+            var mylist = await _DbContext.Player.ToListAsync();
             List<Player> list = new List<Player>();
             list = mylist;
             return list;
@@ -28,7 +28,7 @@ namespace CharacterBuilderShared.Models
 
         public async Task<Player> GetPlayerById(int id)
         {
-            var player = await _DbContext.PlayerSet.Where(T => T.Id == id).FirstOrDefaultAsync();
+            var player = await _DbContext.Player.Where(T => T.Id == id).FirstOrDefaultAsync();
             if (player == null) { player = new Player(); }
             return player;
         }
@@ -38,7 +38,7 @@ namespace CharacterBuilderShared.Models
 
             if (player != null)
             {
-                _DbContext.PlayerSet.Add(player);
+                _DbContext.Player.Add(player);
                 await _DbContext.SaveChangesAsync();
             }
             // else{
@@ -49,10 +49,10 @@ namespace CharacterBuilderShared.Models
 
         public async Task DeletePlayer(int id)
         {
-            var player = await _DbContext.PlayerSet.Where(T => T.Id == id).FirstOrDefaultAsync();
+            var player = await _DbContext.Player.Where(T => T.Id == id).FirstOrDefaultAsync();
             if (player != null)
             {
-                _DbContext.PlayerSet.Remove(player);
+                _DbContext.Player.Remove(player);
             }
             // else {
             //     throw new Exception ("Player not found or deleted properly");
@@ -63,7 +63,7 @@ namespace CharacterBuilderShared.Models
 
         public async Task UpdatePlayer(Player player)
         {
-            var oldplayer = await _DbContext.PlayerSet.Where(T => T.Id == player.Id).FirstOrDefaultAsync();
+            var oldplayer = await _DbContext.Player.Where(T => T.Id == player.Id).FirstOrDefaultAsync();
             if (oldplayer != null)
             {
                 oldplayer.PlayerName = player.PlayerName;

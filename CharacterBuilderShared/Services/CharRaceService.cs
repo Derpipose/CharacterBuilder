@@ -21,7 +21,7 @@ namespace CharacterBuilderShared.Models
 
         public async Task<IEnumerable<CharRace>> GetAllRaces()
         {
-            var mylist = await _DbContext.CharRaceSet.ToListAsync();
+            var mylist = await _DbContext.CharacterRace.ToListAsync();
             List<CharRace> list = new List<CharRace>();
             list = mylist;
             return list;
@@ -29,7 +29,7 @@ namespace CharacterBuilderShared.Models
 
         public async Task<IEnumerable<CharRace>> GetAllRacesByCampaign(string campaign)
         {
-            var mylist = await _DbContext.CharRaceSet.Where(x => x.Campaign == campaign).ToListAsync();
+            var mylist = await _DbContext.CharacterRace.Where(x => x.Campaign == campaign).ToListAsync();
             List<CharRace> list = new List<CharRace>();
             list = mylist;
             return list;
@@ -37,13 +37,13 @@ namespace CharacterBuilderShared.Models
 
         public async Task<CharRace> GetRaceById(int id)
         {
-            var race = await _DbContext.CharRaceSet.Where(x => x.Id == id).FirstOrDefaultAsync();
+            var race = await _DbContext.CharacterRace.Where(x => x.Id == id).FirstOrDefaultAsync();
             return race == null ? throw new Exception("Race not found!") : race;
         }
 
         public async Task UpdateRace(CharRace race)
         {
-            var oldrace = await _DbContext.CharRaceSet.Where(x => x.Id == race.Id).FirstOrDefaultAsync();
+            var oldrace = await _DbContext.CharacterRace.Where(x => x.Id == race.Id).FirstOrDefaultAsync();
             if (oldrace != null)
             {
                 oldrace.Campaign = race.Campaign;
