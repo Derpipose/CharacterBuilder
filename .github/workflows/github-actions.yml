@@ -16,13 +16,22 @@ jobs:
         with:
           dotnet-version: 8.0.102
 
-      - name: Set up tests
-        run: |
-          cd CharacterBuilderShared
-          cd ..
 
       - name: Formatting Ensured
         run: dotnet format --verify-no-changes --verbosity diagnostic
+        
+      - name: Set Up Tests
+        run: |
+          cd Charactertests
+          docker compose up --build -d
+          docker-compose exec -T charactertesting dotnet test
+        
+      - name: Cleaning Up Tests
+        if: always()
+        run: |
+          cd Charactertests
+          docker compose down -v
+
 
       - name: Send MS Teams Notification on Fail
         if: ${{ failure() }}
