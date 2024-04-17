@@ -22,6 +22,7 @@ jobs:
         
       - name: Set Up Tests
         run: |
+          ls
           cd Charactertests
           docker compose up --build -d
           docker-compose exec -T charactertesting dotnet test
