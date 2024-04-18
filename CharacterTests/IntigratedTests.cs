@@ -199,7 +199,7 @@ namespace CharacterTests
             Assert.That(list.Count, Is.EqualTo(1));
         }
 
-        [Order(6)]
+        [Order(7)]
         [Test]
         public async Task GetCharacterbyid()
         {
