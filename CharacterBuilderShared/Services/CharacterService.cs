@@ -60,6 +60,24 @@ namespace CharacterBuilderShared.Models
             var character = await _DbContext.PlayerCharacter.Where(x => x.Id == id).FirstOrDefaultAsync();
             if (character != null)
             {
+                if(character.StatsId != null)
+                {
+                    var loggerFactory = new LoggerFactory();
+                    var statslogger = loggerFactory.CreateLogger<Stats>();
+                    StatsService service = new(statslogger, _DbContext);
+                    int statid = (int)character.StatsId;
+                    await service.DeleteStats(statid);
+                }
+                if (character.ModStatsId != null)
+                {
+                    var loggerFactory = new LoggerFactory();
+                    var statslogger = loggerFactory.CreateLogger<ModStats>();
+                    ModStatsService service = new(statslogger, _DbContext);
+                    int statid = (int)character.ModStatsId;
+                    await service.DeleteModStats(statid);
+                }
+
+
                 _DbContext.PlayerCharacter.Remove(character);
                 await _DbContext.SaveChangesAsync();
             }

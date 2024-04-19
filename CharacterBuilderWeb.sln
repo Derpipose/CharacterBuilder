@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CharacterBuilderWeb", "Char
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CharacterBuilderAPI", "CharacterBuilderAPI\CharacterBuilderAPI.csproj", "{3F806330-66C0-4E62-A32E-CA1EB5906043}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CharacterBuilderShared", "CharacterBuilderShared\CharacterBuilderShared.csproj", "{0D9795FD-9998-427B-9C4E-573973E13898}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CharacterBuilderShared", "CharacterBuilderShared\CharacterBuilderShared.csproj", "{0D9795FD-9998-427B-9C4E-573973E13898}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CharacterTests", "CharacterTests\CharacterTests.csproj", "{8BE8DE13-B820-4926-A4B8-8E9E4C41CB7E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CharacterTests", "CharacterTests\CharacterTests.csproj", "{8BE8DE13-B820-4926-A4B8-8E9E4C41CB7E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
