@@ -2,7 +2,7 @@
 
 var builder = WebApplication.CreateBuilder(args);
 // string uri = "http://thederpeningapiimage:8080";
-string uri = Environment.GetEnvironmentVariable("apiaccess") ??  "http://characterbuilderweb-api:8080";
+string uri = Environment.GetEnvironmentVariable("apiaccess") ?? "http://characterbuilderweb-api:8080";
 // Add services to the container.
 builder.Services.AddRazorPages();
 

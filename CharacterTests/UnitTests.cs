@@ -1,4 +1,4 @@
-using CharacterBuilderShared.Models;
+﻿using CharacterBuilderShared.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace CharacterTests
@@ -8,11 +8,13 @@ namespace CharacterTests
 
         [SetUp]
         public void Setup()
-        {}
+        { }
 
         [Test]
-        public void createplayerTest(){
-            var player = new Player{
+        public void createplayerTest()
+        {
+            var player = new Player
+            {
                 PlayerName = "Charley",
                 Username = "Roddy477",
                 Pin = 7654
@@ -24,8 +26,10 @@ namespace CharacterTests
         }
 
         [Test]
-        public void createCharacterTest(){
-            var player = new Player{
+        public void createCharacterTest()
+        {
+            var player = new Player
+            {
                 Id = 0,
                 PlayerName = "Charley",
                 Username = "Roddy477",
@@ -36,7 +40,8 @@ namespace CharacterTests
             Assert.That(player.Username, Is.EqualTo("Roddy477"));
             Assert.That(player.Pin, Is.EqualTo(7654));
 
-            var character = new Character{
+            var character = new Character
+            {
                 PlayerId = 0,
                 CharName = "Hope",
                 RaceId = 7
@@ -48,8 +53,10 @@ namespace CharacterTests
         }
 
         [Test]
-        public void createStatsTest(){
-            var player = new Player{
+        public void createStatsTest()
+        {
+            var player = new Player
+            {
                 Id = 0,
                 PlayerName = "Charley",
                 Username = "Roddy477",
@@ -61,12 +68,14 @@ namespace CharacterTests
             Assert.That(player.Pin, Is.EqualTo(7654));
 
 
-            var stats = new Stats{
+            var stats = new Stats
+            {
                 Id = 0,
                 BaseCha = 17,
                 BaseCon = 15
             };
-            var character = new Character{
+            var character = new Character
+            {
                 PlayerId = 0,
                 CharName = "Hope",
                 RaceId = 7,
