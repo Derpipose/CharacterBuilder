@@ -1,7 +1,6 @@
 ﻿@page "/"
 
 @inject NavigationManager NavigationManager
-@rendermode InteractiveServer
 
 <PageTitle>Home</PageTitle>
 
@@ -12,16 +11,11 @@
 <button @onclick="Register">Create Player</button>
 
 @code {
-    /*private void SignIn() {
+    private void SignIn() {
         NavigationManager.NavigateTo("/signin");
-    }*/
-
-    protected override void OnInitialized() {
     }
 
     private void Register() {
-        Console.WriteLine("I have done a navigate!");
         NavigationManager.NavigateTo("/register");
-
     }
 }
