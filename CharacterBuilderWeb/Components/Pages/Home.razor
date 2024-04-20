@@ -1,9 +1,21 @@
 ﻿@page "/"
 
+@inject NavigationManager NavigationManager
+
 <PageTitle>Home</PageTitle>
 
 <h1>Welcome to the Dnd Character builder for T&D</h1>
 
-<button>Sign In</button>
+@* <button @onclick="SignIn">Sign In</button> *@
 
-<button>Register</button>
+<button @onclick="Register">Create Player</button>
+
+@code {
+    private void SignIn() {
+        NavigationManager.NavigateTo("/signin");
+    }
+
+    private void Register() {
+        NavigationManager.NavigateTo("/register");
+    }
+}

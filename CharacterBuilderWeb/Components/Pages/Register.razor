@@ -1,0 +1,76 @@
+﻿@page "/Register"
+@using System.Text.RegularExpressions
+@using CharacterBuilderShared.Models
+@using CharacterBuilderWeb.Services;
+@inject PlayerApiService playerApiService;
+
+@inject NavigationManager NavigationManager
+
+<PageTitle>Registration</PageTitle>
+
+<h1>Welcome in! Please come up with a user name and a four digit pin!</h1>
+
+<form method="post">
+    <div>
+        <label for="username">Username:</label>
+        <input type="text" id="username" @bind="Username" required />
+    </div>
+    <div>
+        <label for="playername">Real Name:</label>
+        <input type="text" id="playername" @bind="PlayerName" required />
+    </div>
+    <div>
+        <label for="pin">4-Digit PIN:</label>
+        <input type="text" id="pin" @bind="Pin" pattern="[0-9]{4}" required />
+        <small>Enter a 4-digit PIN.</small>
+    </div>
+    <button type="submit">Submit</button>
+</form>
+
+<EditForm Model="@player" OnValidSubmit="@HandleValidSubmit">
+
+    <label for="PlayerName" class="form-label">PlayerName</label>
+    <InputText id="PlayerName" class="form-control"
+               @bind-Value="player.PlayerName" />
+    <label for="Username" class="form-label">Username</label>
+    <InputText id="Username" class="form-control"
+                @bind-Value="player.Username" />
+    <label for="Pin" class="form-label">4 digit pin</label>
+    <InputNumber id="Pin" class="form-control"
+                @bind-Value="player.Pin" />
+    <label for="Veteran" class="form-label">Have you been in a campaign before?</label>
+    <InputCheckbox id="Veteran" class="form-control"
+                @bind-Value="player.Veteran" />
+    <button type="submit" class="btn btn-primary">Add</button>
+</EditForm>
+
+@code {
+    private string Username { get; set; } = "";
+    private string PlayerName { get; set; } = "";
+    private int Pin { get; set; } = 0;
+
+    private Player player = new Player();
+
+    protected override void OnInitialized() {
+        player = new Player();
+    }
+
+    // Method to handle form submission
+    private async Task HandleValidSubmit() {
+
+        // Validate form inputs
+        if (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(PlayerName) || (Pin > 0 || Pin > 9999 || Pin < 1000)) {
+            return;
+        }
+
+        //TODO: Create way to check if username has been used already and throw the form back to get a new
+        //user name if that is the case. 
+
+        await playerApiService.AddThisPlayer(player);
+
+
+        
+        // Redirect to a success page or do other actions as needed
+        NavigationManager.NavigateTo("/Characters");
+    }
+}
