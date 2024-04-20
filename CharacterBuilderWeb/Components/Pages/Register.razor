@@ -1,31 +1,18 @@
-﻿@page "/Register"
+﻿@page "/register"
 @using System.Text.RegularExpressions
 @using CharacterBuilderShared.Models
 @using CharacterBuilderWeb.Services;
 @inject PlayerApiService playerApiService;
 
+
 @inject NavigationManager NavigationManager
+@rendermode InteractiveServer
+
 
 <PageTitle>Registration</PageTitle>
 
 <h1>Welcome in! Please come up with a user name and a four digit pin!</h1>
 
-<form method="post">
-    <div>
-        <label for="username">Username:</label>
-        <input type="text" id="username" @bind="Username" required />
-    </div>
-    <div>
-        <label for="playername">Real Name:</label>
-        <input type="text" id="playername" @bind="PlayerName" required />
-    </div>
-    <div>
-        <label for="pin">4-Digit PIN:</label>
-        <input type="text" id="pin" @bind="Pin" pattern="[0-9]{4}" required />
-        <small>Enter a 4-digit PIN.</small>
-    </div>
-    <button type="submit">Submit</button>
-</form>
 
 <EditForm Model="@player" OnValidSubmit="@HandleValidSubmit">
 
@@ -39,7 +26,7 @@
     <InputNumber id="Pin" class="form-control"
                 @bind-Value="player.Pin" />
     <label for="Veteran" class="form-label">Have you been in a campaign before?</label>
-    <InputCheckbox id="Veteran" class="form-control"
+    <InputCheckbox id="Veteran" class="form-check-input"
                 @bind-Value="player.Veteran" />
     <button type="submit" class="btn btn-primary">Add</button>
 </EditForm>
@@ -59,7 +46,7 @@
     private async Task HandleValidSubmit() {
 
         // Validate form inputs
-        if (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(PlayerName) || (Pin > 0 || Pin > 9999 || Pin < 1000)) {
+        if (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(PlayerName) || (Pin > 9999 || Pin < 1000)) {
             return;
         }
 
