@@ -32,6 +32,10 @@ jobs:
           cd CharacterTests
           docker compose down -v
 
+      - name: Build No Error
+        run: |
+          dotnet build --warnaserror
+
 
       - name: Send MS Teams Notification on Fail
         if: ${{ failure() }}
