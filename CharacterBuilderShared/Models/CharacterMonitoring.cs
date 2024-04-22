@@ -25,7 +25,7 @@ namespace CharacterBuilderShared.Models
         public static ObservableCounter<int> observablecharacterupdateCounter = meter.CreateObservableCounter<int>("apiviews", () => characterupdatecounter, unit: "characterupdate", "character updates?");
         public static ObservableCounter<int> observableplayerdeleteCounter = meter.CreateObservableCounter<int>("apiviews", () => playerdeletecounter, unit: "playerdelete", "player deletes?");
         public static ObservableCounter<int> observableplayerupdateCounter = meter.CreateObservableCounter<int>("apiviews", () => playerupdatecounter, unit: "playerupdate", "player updates?");
-        
+
 
     }
 
