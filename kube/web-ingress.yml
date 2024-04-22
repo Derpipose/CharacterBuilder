@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: rileyfinal
+  name: characterbuilder-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: cryptsandcreatures.duckdns.org
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: characterbuilder-service
+            port:
+              number: 80
+
+              

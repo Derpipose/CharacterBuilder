@@ -1,6 +1,7 @@
 ﻿using CharacterBuilderWeb.Components;
 using CharacterBuilderWeb.Services;
 
+
 var builder = WebApplication.CreateBuilder(args);
 // string uri = "http://thederpeningapiimage:8080";
 string uri = Environment.GetEnvironmentVariable("apiaccess") ?? "http://characterbuilderweb-api:8080";
@@ -58,14 +59,17 @@ builder.Services.AddRazorPages();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Error", createScopeForErrors: true);
-}
+// if (!app.Environment.IsDevelopment())
+// {
+app.UseExceptionHandler("/Error", createScopeForErrors: true);
+// }
 
+app.UseHsts();
+app.UseRouting();
 app.UseStaticFiles();
 app.UseAntiforgery();
 
+app.MapBlazorHub();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 

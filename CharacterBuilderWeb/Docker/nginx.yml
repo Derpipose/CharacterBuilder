@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: riley
+  name: characterbuilder-deployment
+  labels:
+    app: characterbuilder
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: characterbuilder
+  template:
+    metadata:
+      labels:
+        app: characterbuilder
+    spec:
+      containers:
+      - name: characterbuilder
+        image: characterbuilder:latest
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: riley
+  name: characterbuilder-service
+spec:
+  type: ClusterIP
+  selector:
+    app: characterbuilder
+  ports:
+    - port: 80
+      targetPort: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: riley
+  name: characterbuilder-ingress
+spec:
+  ingressClassName: characterbuilder
+  rules:
+  - host: cryptsandcreatures.duckdns.org
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: characterbuilder-service
+            port:
+              number: 80

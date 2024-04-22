@@ -40,6 +40,7 @@ namespace CharacterBuilderShared.Models
             {
                 _DbContext.Player.Add(player);
                 await _DbContext.SaveChangesAsync();
+                CharacterMonitoring.playerupDownCounter.Add(1);
             }
             // else{
             //     throw new Exception ("Player not defined properly");
@@ -53,6 +54,9 @@ namespace CharacterBuilderShared.Models
             if (player != null)
             {
                 _DbContext.Player.Remove(player);
+                CharacterMonitoring.playerupDownCounter.Add(-1);
+                CharacterMonitoring.playerdeletecounter += 1;
+
             }
             // else {
             //     throw new Exception ("Player not found or deleted properly");
@@ -72,6 +76,7 @@ namespace CharacterBuilderShared.Models
             }
 
             await _DbContext.SaveChangesAsync();
+            CharacterMonitoring.playerupdatecounter += 1;
         }
 
     }
