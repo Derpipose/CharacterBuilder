@@ -1,0 +1,16 @@
+name: pull request environment
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  destroy-cluster:
+    runs-on: self-hosted
+    
+    steps:
+      - name: delete kubernetes environment
+        run: |
+          export PULL_REQUEST_ID=${{ github.event.pull_request.number }}
+          export NAMESPACE="rileyfinal-pr-$PULL_REQUEST_ID"
+          kubectl delete namespace $NAMESPACE

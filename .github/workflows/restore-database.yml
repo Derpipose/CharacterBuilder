@@ -1,0 +1,16 @@
+name: Restore Database
+
+on:
+    - workflow_dispatch
+
+jobs:
+    restore:
+        runs-on: self-hosted
+
+        steps:
+        - name: Restore database
+          run: |
+            CONTAINER_NAME=$(kubectl -n rileyfinal get pods --no-headers -o custom-columns=":metadata.name" | grep "characterbuilder-db-deployment")
+            kubectl -n rileyfinal cp /path/to/backup.sql $CONTAINER_NAME:/tmp/backup.sql
+            kubectl -n rileyfinal exec -t $CONTAINER_NAME -- \
+                psql -U riley-user -d <database_name> -f /tmp/backup.sql

@@ -48,13 +48,13 @@ builder.Services.AddScoped<StatsApiService>(provider =>
     return new StatsApiService(httpclient);
 });
 
-builder.Services.AddServerSideBlazor();
+// builder.Services.AddServerSideBlazor();
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 
 
 
 // Add services to the container.
-builder.Services.AddRazorPages();
+// builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
@@ -69,7 +69,7 @@ app.UseRouting();
 app.UseStaticFiles();
 app.UseAntiforgery();
 
-app.MapBlazorHub();
+// app.MapBlazorHub();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
