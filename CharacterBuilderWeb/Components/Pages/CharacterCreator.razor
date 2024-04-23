@@ -1,0 +1,89 @@
+﻿@page "/makecharacter"
+@using System.Text.RegularExpressions
+@using CharacterBuilderShared.Models
+@using CharacterBuilderWeb.Services
+@inject PlayerApiService playerApiService
+@inject CharacterApiService characterApiService
+@inject CharRaceApiService charRaceApiService
+@inject RaceVarApiService raceVarApiService
+@inject CharClassApiService charClassApiService
+@inject StatsApiService statsApiService
+@inject NavigationManager NavigationManager
+@rendermode InteractiveServer
+
+<PageTitle>Create Character</PageTitle>
+
+<h1>Create a new character!!</h1>
+
+<EditForm Model="@character" OnValidSubmit="@HandleValidSubmit">
+    <label for="CharName" class="form-label">Character</label>
+    <InputText id="CharName" class="form-control" @bind-Value="character.CharName" />
+
+    <select id="RaceId" class="form-control" @bind="character.RaceId">
+        @foreach (var race in races) {
+            <option value="@race.Id">@race.RaceName</option>
+        }
+    </select>
+
+    <div id="variantDropdown" style="display: none;">
+        <label for="RaceVariantId" class="form-label">Race Variant</label>
+        <select id="RaceVariantId" class="form-control" @bind="character.RaceVariantId">
+            @if(varraces != null && varraces.Count > 0){
+                @foreach (var raceVariant in varraces) {
+                    <option value="@raceVariant.Id">@raceVariant.Variant</option>
+                }
+            }
+        </select>
+    </div>
+    <p></p>
+    <button type="submit" class="btn btn-primary" disabled="@isLoading">
+        @if (isLoading) {
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <span>Loading...</span>
+        } else {
+            <span>Add</span>
+        }
+    </button>
+</EditForm>
+
+@code {
+    private Character character = new Character();
+    private List<CharRace> races = new();
+    private List<RaceVar> ?varraces;
+    private bool isLoading = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await LoadEverything();
+    }
+
+    public async Task LoadEverything()
+    {
+        races = await charRaceApiService.GetAllRacesPerCampaign("Fantasy") ?? throw new Exception("The races didn't load");
+    }
+
+    // Method to handle form submission
+    private async Task HandleValidSubmit()
+    {
+        isLoading = true;
+        // Validate form inputs
+        if (string.IsNullOrEmpty(character.CharName))
+        {
+            isLoading = false;
+            return;
+        }
+
+        //TODO: Create way to check if username has been used already and throw the form back to get a new
+        //user name if that is the case.
+
+        await characterApiService.AddThisCharacter(character);
+        Console.WriteLine("I created a character and will now do a navigate!");
+
+        NavigationManager.NavigateTo("/characters");
+    }
+
+    private async void OnRaceChange(ChangeEventArgs e, string racebase) {
+        var thisvarraces = await raceVarApiService.GetThisVarRaceString(racebase);
+        varraces = thisvarraces;
+    }
+}

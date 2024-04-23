@@ -1,5 +1,7 @@
 ﻿using CharacterBuilderWeb.Components;
 using CharacterBuilderWeb.Services;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -67,7 +69,18 @@ app.UseHsts();
 app.UseRouting();
 app.UseStaticFiles();
 app.UseAntiforgery();
-app.MapGet("/health", () => "Healthy");
+// app.MapGet("/health", () => "Healthy");
+
+app.MapHealthChecks("/health", new HealthCheckOptions
+{
+    AllowCachingResponses = false,
+    ResultStatusCodes = {
+        [HealthStatus.Healthy] = StatusCodes.Status200OK,
+        [HealthStatus.Degraded] = StatusCodes.Status200OK,
+        [HealthStatus.Unhealthy] = StatusCodes.Status503ServiceUnavailable
+    }
+});
+
 // app.MapBlazorHub();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();

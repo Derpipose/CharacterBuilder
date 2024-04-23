@@ -12,7 +12,6 @@
 <table>
     <thead>
         <tr>
-            <th>Player ID</th>
             <th>Name</th>
             <th>Username</th>
         </tr>
@@ -20,7 +19,6 @@
     <tbody>
         @foreach (var player in players) {
             <tr>
-                <td>@player.Id</td>
                 <td>@player.PlayerName</td>
                 <td>@player.Username</td>
             </tr>
@@ -37,7 +35,10 @@
 
     private async Task LoadPlayerData() {
         var listplayers = await playerApiService.GetAllPlayers();
-        players = listplayers ?? new List<Player> { new Player { Username = "No Players Yet!", Id = 0 } };
+        if (listplayers == null || listplayers.Count == 0) {
+            listplayers = new List<Player> { new Player { PlayerName = "No Players Yet!", Id = 0 } };
+        }
+        players = listplayers;
     }
 
 

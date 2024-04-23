@@ -33,41 +33,41 @@ builder.Services.AddScoped<StatsService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// const string serviceName = "CharactersandPlayers";
+const string serviceName = "CharactersandPlayers";
 
-// builder.Logging.AddOpenTelemetry(options =>
-// {
-//     options
-//         .SetResourceBuilder(
-//             ResourceBuilder.CreateDefault()
-//                 .AddService(serviceName))
-//         .AddOtlpExporter(o =>
-//             {
-//                 o.Endpoint = new Uri(builder.Configuration["COLLECTOR_URL"] ?? throw new NullReferenceException("COLLECTOR_URL not found"));
-//             });
-// });
+builder.Logging.AddOpenTelemetry(options =>
+{
+    options
+        .SetResourceBuilder(
+            ResourceBuilder.CreateDefault()
+                .AddService(serviceName))
+        .AddOtlpExporter(o =>
+            {
+                o.Endpoint = new Uri("http://derp-otel-collector:4317");
+            });
+});
 
 
 
-// builder.Services.AddOpenTelemetry()
-//       .ConfigureResource(resource => resource.AddService(serviceName))
-//       .WithTracing(tracing => tracing
-//           .AddAspNetCoreInstrumentation()
-//           //   .AddConsoleExporter()
-//           .AddSource(DerpingMonitor.DerpString)
-//           .AddOtlpExporter(o =>
-//           {
-//               o.Endpoint = new Uri("http://derp-otel-collector:4317");
-//           }))
-//       .WithMetrics(metrics => metrics
-//           .AddAspNetCoreInstrumentation()
-//           .AddMeter("charactermetrics")
-//           //   .AddConsoleExporter()
-//           .AddPrometheusExporter()
-//           .AddOtlpExporter(o =>
-//           {
-//               o.Endpoint = new Uri("http://derp-otel-collector:4317");
-//           }));
+builder.Services.AddOpenTelemetry()
+      .ConfigureResource(resource => resource.AddService(serviceName))
+      .WithTracing(tracing => tracing
+          .AddAspNetCoreInstrumentation()
+          //   .AddConsoleExporter()
+          .AddSource(CharacterMonitoring.charactermetricstring)
+          .AddOtlpExporter(o =>
+          {
+              o.Endpoint = new Uri("http://derp-otel-collector:4317");
+          }))
+      .WithMetrics(metrics => metrics
+          .AddAspNetCoreInstrumentation()
+          .AddMeter("charactermetrics")
+          //   .AddConsoleExporter()
+          .AddPrometheusExporter()
+          .AddOtlpExporter(o =>
+          {
+              o.Endpoint = new Uri("http://derp-otel-collector:4317");
+          }));
 
 var app = builder.Build();
 
@@ -78,17 +78,20 @@ app.UseSwagger();
 app.UseSwaggerUI();
 // }
 
-// app.MapHealthChecks("/health", new HealthCheckOptions
-// {
-//     AllowCachingResponses = false,
-//     ResultStatusCodes = {
-//         [HealthStatus.Healthy] = StatusCodes.Status200OK,
-//         [HealthStatus.Degraded] = StatusCodes.Status200OK,
-//         [HealthStatus.Unhealthy] = StatusCodes.Status503ServiceUnavailable
-//     }
-// });
+app.MapHealthChecks("/health", new HealthCheckOptions
+{
+    AllowCachingResponses = false,
+    ResultStatusCodes = {
+        [HealthStatus.Healthy] = StatusCodes.Status200OK,
+        [HealthStatus.Degraded] = StatusCodes.Status200OK,
+        [HealthStatus.Unhealthy] = StatusCodes.Status503ServiceUnavailable
+    }
+});
 
-
+app.MapGet("/", () =>
+{
+    CharacterMonitoring.interactivecounter += 1;
+});
 // app.UseOpenTelemetryPrometheusScrapingEndpoint();
 
 app.UseHttpsRedirection();

@@ -46,8 +46,10 @@
 
     // Method to handle form submission
     private async Task HandleValidSubmit() {
+        isLoading = true;
         // Validate form inputs
         if (string.IsNullOrEmpty(player.Username) || string.IsNullOrEmpty(player.PlayerName) || player.Pin < 1000 || player.Pin > 9999) {
+            isLoading = false; 
             return;
         }
 
