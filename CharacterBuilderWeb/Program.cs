@@ -3,8 +3,7 @@ using CharacterBuilderWeb.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
-// string uri = "http://thederpeningapiimage:8080";
-string uri = Environment.GetEnvironmentVariable("apiaccess") ?? "http://characterbuilderweb-api:8080";
+string uri = Environment.GetEnvironmentVariable("apiaccess") ?? "http://character-api:8080";
 
 builder.Services.AddScoped<CharacterApiService>(provider =>
 {
@@ -68,7 +67,7 @@ app.UseHsts();
 app.UseRouting();
 app.UseStaticFiles();
 app.UseAntiforgery();
-
+app.MapGet("/health", () => "Healthy");
 // app.MapBlazorHub();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();

@@ -1,0 +1,53 @@
+﻿@page "/characters"
+@using CharacterBuilderShared.Models;
+@using CharacterBuilderWeb.Services;
+@inject PlayerApiService playerApiService;
+@inject CharacterApiService characterApiService;
+@rendermode InteractiveServer
+
+
+<PageTitle>Characters</PageTitle>
+
+<h1>This is a list of all the characters and their respective players.</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Player Name</th>
+            <th>Character Name</th>
+            <th>Character Class</th>
+            <th>Character Race</th>
+            <th>Character Level</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var character in characters) {
+            <tr>
+                <td>@character.Id</td>
+                <td>@character.CharName</td>
+                <td>@character.ClassId</td>
+                <td>@character.RaceId</td>
+                <td>@character.StatsId</td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    private List<Character> characters = new List<Character>();
+    private List<Player> players = new List<Player>();
+
+    protected override async Task OnInitializedAsync() {
+        await LoadData();
+    }
+
+    private async Task LoadData() {
+        var listplayers = await playerApiService.GetAllPlayers();
+        players = listplayers ?? new List<Player> { new Player { Username = "No Players Yet!", Id = 0 } };
+        var listcharacters = await characterApiService.GetAllCharacters();
+        characters = listcharacters ?? new List<Character> { new Character {  } };
+    }
+
+
+}

@@ -18,23 +18,27 @@
                @bind-Value="player.PlayerName" />
     <label for="Username" class="form-label">Username</label>
     <InputText id="Username" class="form-control"
-                @bind-Value="player.Username" />
+               @bind-Value="player.Username" />
     <label for="Pin" class="form-label">4 digit pin</label>
     <InputNumber id="Pin" class="form-control"
-                @bind-Value="player.Pin" />
+                 @bind-Value="player.Pin" />
     <label for="Veteran" class="form-label">Have you been in a campaign before?</label>
     <InputCheckbox id="Veteran" class="form-check-input"
-                @bind-Value="player.Veteran" />
+                   @bind-Value="player.Veteran" />
     <p></p>
-    <button type="submit" class="btn btn-primary">Add</button>
+    <button type="submit" class="btn btn-primary" disabled="@isLoading">
+        @if (isLoading) {
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <span>Loading...</span>
+        } else {
+            <span>Add</span>
+        }
+    </button>
 </EditForm>
 
 @code {
-    private string Username { get; set; } = "";
-    private string PlayerName { get; set; } = "";
-    private int Pin { get; set; } = 0;
-
     private Player player = new Player();
+    private bool isLoading = false;
 
     protected override void OnInitialized() {
         player = new Player();
@@ -42,17 +46,17 @@
 
     // Method to handle form submission
     private async Task HandleValidSubmit() {
-
         // Validate form inputs
-        if (string.IsNullOrEmpty(Username) || string.IsNullOrEmpty(PlayerName) || (Pin > 0 || Pin > 9999 || Pin < 1000)) {
+        if (string.IsNullOrEmpty(player.Username) || string.IsNullOrEmpty(player.PlayerName) || player.Pin < 1000 || player.Pin > 9999) {
             return;
         }
 
         //TODO: Create way to check if username has been used already and throw the form back to get a new
-        //user name if that is the case. 
+        //user name if that is the case.
 
         await playerApiService.AddThisPlayer(player);
+        Console.WriteLine("I created a player and will now do a navigate!");
 
-        NavigationManager.NavigateTo("/Characters");
+        NavigationManager.NavigateTo("/players");
     }
 }

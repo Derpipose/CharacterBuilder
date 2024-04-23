@@ -1,0 +1,44 @@
+﻿@page "/players"
+@using CharacterBuilderShared.Models;
+@using CharacterBuilderWeb.Services;
+@inject PlayerApiService playerApiService;
+@rendermode InteractiveServer
+
+
+<PageTitle>Players</PageTitle>
+
+<h1>This is a list of all the players and their Id tags. This is used for players to assign characters to themselves.</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Player ID</th>
+            <th>Name</th>
+            <th>Username</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var player in players) {
+            <tr>
+                <td>@player.Id</td>
+                <td>@player.PlayerName</td>
+                <td>@player.Username</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    private List<Player> players = new List<Player>();
+
+    protected override async Task OnInitializedAsync() {
+        await LoadPlayerData();
+    }
+
+    private async Task LoadPlayerData() {
+        var listplayers = await playerApiService.GetAllPlayers();
+        players = listplayers ?? new List<Player> { new Player { Username = "No Players Yet!", Id = 0 } };
+    }
+
+
+}
