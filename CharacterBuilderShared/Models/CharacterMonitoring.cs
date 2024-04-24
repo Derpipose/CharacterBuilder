@@ -24,11 +24,11 @@ namespace CharacterBuilderShared.Models
         public static string playermetricstring = "I am a player trace";
         public static UpDownCounter<int> characterupDownCounter = meter.CreateUpDownCounter<int>("Charactercount", unit: "Characters", description: "Characters in total");
         public static UpDownCounter<int> playerupDownCounter = meter.CreateUpDownCounter<int>("Playercount", unit: "Players", description: "Players in total");
-        public static ObservableCounter<int> observableCounter = meter.CreateObservableCounter<int>("apiviews", () => interactivecounter, unit: "views", "Api views?");
-        public static ObservableCounter<int> observablecharacterdeleteCounter = meter.CreateObservableCounter<int>("CharactersDeleted", () => characterdeletecounter, unit: "characterdelete", "character deletes?");
-        public static ObservableCounter<int> observablecharacterupdateCounter = meter.CreateObservableCounter<int>("CharactersUpdated", () => characterupdatecounter, unit: "characterupdate", "character updates?");
-        public static ObservableCounter<int> observableplayerdeleteCounter = meter.CreateObservableCounter<int>("PlayersDeleted", () => playerdeletecounter, unit: "playerdelete", "player deletes?");
-        public static ObservableCounter<int> observableplayerupdateCounter = meter.CreateObservableCounter<int>("PlayersUpdated", () => playerupdatecounter, unit: "playerupdate", "player updates?");
+        public static ObservableCounter<int> observableCounter = meter.CreateObservableCounter<int>("apiviews", () => interactivecounter, unit: "views", "Api views");
+        public static ObservableCounter<int> observablecharacterdeleteCounter = meter.CreateObservableCounter<int>("CharactersDeleted", () => characterdeletecounter, unit: "characterdelete", "character deletes");
+        public static ObservableCounter<int> observablecharacterupdateCounter = meter.CreateObservableCounter<int>("CharactersUpdated", () => characterupdatecounter, unit: "characterupdate", "character updates");
+        public static ObservableCounter<int> observableplayerdeleteCounter = meter.CreateObservableCounter<int>("PlayersDeleted", () => playerdeletecounter, unit: "playerdelete", "player deletes");
+        public static ObservableCounter<int> observableplayerupdateCounter = meter.CreateObservableCounter<int>("PlayersUpdated", () => playerupdatecounter, unit: "playerupdate", "player updates");
 
 
     }
