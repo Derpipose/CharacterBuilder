@@ -24,6 +24,7 @@ namespace CharacterBuilderShared.Models
             var mylist = await _DbContext.PlayerCharacter.ToListAsync();
             List<Character> list = new List<Character>();
             list = mylist;
+            // CharacterMonitoring.characterupDownCounter = list.Count;
             return list;
         }
 
