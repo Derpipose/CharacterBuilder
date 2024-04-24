@@ -20,4 +20,4 @@ scrape_configs:
     static_configs:
     - targets:
       - characterbuilderapi-service:80
-      - characterbuilderweb-service:80
+      - characterbuilder-service:80
