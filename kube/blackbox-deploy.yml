@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: rileyfinal
+  name: blackbox-deployment
+  labels:
+    app: blackbox
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: blackbox
+  template:
+    metadata:
+      labels:
+        app: blackbox
+    spec:
+      containers:
+      - name: blackbox
+        image: prom/blackbox-exporter:v0.24.0
+        ports:
+        - containerPort: 9115
+        volumeMounts:
+        - name: blackbox-pvc
+          mountPath: /blackbox
+      volumes:
+      - name: blackbox-pvc
+        persistentVolumeClaim:
+          claimName: characterbuilder-blackbox-pvc
