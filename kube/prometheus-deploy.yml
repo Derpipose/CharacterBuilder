@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: rileyfinal
+  name: prometheus-deployment
+  labels:
+    app: prometheus
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: prometheus
+  template:
+    metadata:
+      labels:
+        app: prometheus
+    spec:
+      containers:
+      - name: prometheus
+        image: prom/prometheus:v2.50.1
+        ports:
+        - containerPort: 9090
+        volumeMounts:
+        - name: prometheus-pvc
+          mountPath: /prometheus
+        - name: prometheus-config
+          mountPath: /etc/prometheus/prometheus.yml
+          subPath: prometheus-config.yml
+      volumes:
+      - name: prometheus-pvc
+        persistentVolumeClaim:
+          claimName: characterbuilder-prometheus-pvc
+      - name: prometheus-config
+        configMap:
+          name: prometheus-config

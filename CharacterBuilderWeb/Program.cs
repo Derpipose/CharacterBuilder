@@ -1,5 +1,10 @@
 ﻿using CharacterBuilderWeb.Components;
 using CharacterBuilderWeb.Services;
+using OpenTelemetry.Logs;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Resources;
+using OpenTelemetry.Trace;
+using CharacterBuilderShared.Models;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
@@ -52,7 +57,41 @@ builder.Services.AddScoped<StatsApiService>(provider =>
 // builder.Services.AddServerSideBlazor();
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 
+const string serviceName = "CharactersandPlayersWebsite";
 
+builder.Logging.AddOpenTelemetry(options =>
+{
+    options
+        .SetResourceBuilder(
+            ResourceBuilder.CreateDefault()
+                .AddService(serviceName))
+        .AddOtlpExporter(o =>
+            {
+                o.Endpoint = new Uri("http://otel-collector-service:4317");
+            });
+});
+
+
+
+builder.Services.AddOpenTelemetry()
+      .ConfigureResource(resource => resource.AddService(serviceName))
+      .WithTracing(tracing => tracing
+          .AddAspNetCoreInstrumentation()
+          //   .AddConsoleExporter()
+          .AddSource(CharacterMonitoring.charactermetricstring)
+          .AddOtlpExporter(o =>
+          {
+              o.Endpoint = new Uri("http://otel-collector-service:4317");
+          }))
+      .WithMetrics(metrics => metrics
+          .AddAspNetCoreInstrumentation()
+          .AddMeter("charactermetrics")
+          //   .AddConsoleExporter()
+          .AddPrometheusExporter()
+          .AddOtlpExporter(o =>
+          {
+              o.Endpoint = new Uri("http://otel-collector-service:4317");
+          }));
 
 // Add services to the container.
 // builder.Services.AddRazorPages();
@@ -64,6 +103,8 @@ var app = builder.Build();
 // {
 app.UseExceptionHandler("/Error", createScopeForErrors: true);
 // }
+
+app.UseOpenTelemetryPrometheusScrapingEndpoint();
 
 app.UseHsts();
 app.UseRouting();

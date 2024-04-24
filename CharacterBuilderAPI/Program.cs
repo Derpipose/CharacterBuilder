@@ -43,7 +43,7 @@ builder.Logging.AddOpenTelemetry(options =>
                 .AddService(serviceName))
         .AddOtlpExporter(o =>
             {
-                o.Endpoint = new Uri("http://derp-otel-collector:4317");
+                o.Endpoint = new Uri("http://otel-collector-service:4317");
             });
 });
 
@@ -57,7 +57,7 @@ builder.Services.AddOpenTelemetry()
           .AddSource(CharacterMonitoring.charactermetricstring)
           .AddOtlpExporter(o =>
           {
-              o.Endpoint = new Uri("http://derp-otel-collector:4317");
+              o.Endpoint = new Uri("http://otel-collector-service:4317");
           }))
       .WithMetrics(metrics => metrics
           .AddAspNetCoreInstrumentation()
@@ -66,7 +66,7 @@ builder.Services.AddOpenTelemetry()
           .AddPrometheusExporter()
           .AddOtlpExporter(o =>
           {
-              o.Endpoint = new Uri("http://derp-otel-collector:4317");
+              o.Endpoint = new Uri("http://otel-collector-service:4317");
           }));
 
 var app = builder.Build();
@@ -92,9 +92,9 @@ app.MapGet("/", () =>
 {
     CharacterMonitoring.interactivecounter += 1;
 });
-// app.UseOpenTelemetryPrometheusScrapingEndpoint();
+app.UseOpenTelemetryPrometheusScrapingEndpoint();
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

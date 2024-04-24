@@ -17,6 +17,38 @@ jobs:
           dotnet-version: 8.0.102
 
 
+
+
+      - name: Kube
+        run: |
+          docker build -t 144.17.92.12:5000/rileyfinal/characterbuilder:$GITHUB_RUN_ID -f CharacterBuilderWeb/Dockerfile .
+          docker push 144.17.92.12:5000/rileyfinal/characterbuilder:$GITHUB_RUN_ID
+          docker build -t 144.17.92.12:5000/rileyfinal/characterbuilderapi:$GITHUB_RUN_ID -f CharacterBuilderAPI/Dockerfile .
+          docker push 144.17.92.12:5000/rileyfinal/characterbuilderapi:$GITHUB_RUN_ID
+
+          cd CharacterBuilderShared
+          kubectl -n rileyfinal delete configmap characterbuilder-postgres-init || true
+          kubectl -n rileyfinal create configmap characterbuilder-postgres-init --from-file=init.sql 
+          cd ..
+
+          cd kube-config
+          kubectl -n rileyfinal delete configmap grafana-datasources-config || true
+          kubectl -n rileyfinal create configmap grafana-datasources-config --from-file=grafana-datasources.yml
+          kubectl -n rileyfinal delete configmap otel-config || true
+          kubectl -n rileyfinal create configmap otel-config --from-file=otel-config.yml
+          kubectl -n rileyfinal delete configmap prometheus-config || true
+          kubectl -n rileyfinal create configmap prometheus-config --from-file=prometheus-config.yml
+          kubectl -n rileyfinal delete configmap blackbox-config || true
+          kubectl -n rileyfinal create configmap blackbox-config --from-file=blackbox-config.yml
+          
+
+          cd ..
+
+          for file in ./kube/*; do
+            echo "Applying $file"
+            cat $f | envsubst | kubectl apply -f -
+          done
+
       - name: Formatting Ensured
         run: dotnet format --verify-no-changes --verbosity diagnostic
         
@@ -36,14 +68,6 @@ jobs:
         run: |
           dotnet build --warnaserror
 
-      - name: Kube
-        run: |
-          docker build -t 144.17.92.12:5000/rileyfinal/characterbuilder:$GITHUB_RUN_ID -f CharacterBuilderWeb/Dockerfile .
-          docker push 144.17.92.12:5000/rileyfinal/characterbuilder:$GITHUB_RUN_ID
-          docker build -t 144.17.92.12:5000/rileyfinal/characterbuilderapi:$GITHUB_RUN_ID -f CharacterBuilderAPI/Dockerfile .
-          docker push 144.17.92.12:5000/rileyfinal/characterbuilderapi:$GITHUB_RUN_ID
-
-          kubectl -apply -f
 
 
       - name: Send MS Teams Notification on Fail

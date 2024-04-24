@@ -2,18 +2,18 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   namespace: rileyfinal
-  name: characterbuilderapi-ingress
+  name: prometheus-ingress
 spec:
   ingressClassName: nginx
   rules:
-  - host: swagger.cryptsandcreatures.duckdns.org
+  - host: prometheus.cryptsandcreatures.duckdns.org
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: characterbuilderapi-service
+            name: prometheus-service
             port:
               number: 80
 
