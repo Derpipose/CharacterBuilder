@@ -15,8 +15,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 
-// var connectionstring = builder.Configuration["ListDb"];
-var connectionstring = builder.Configuration.GetConnectionString("ListDb");
+var connectionstring = builder.Configuration["ListDb"];
+// var connectionstring = builder.Configuration.GetConnectionString("ListDb");
 
 builder.Services.AddDbContext<BuilderContext>(options => options.UseNpgsql(connectionstring));
 
