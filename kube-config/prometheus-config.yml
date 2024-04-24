@@ -6,8 +6,8 @@ scrape_configs:
       module: [http_2xx]
     static_configs:
     - targets:
-      - http://characterbuilderapi-service:80
-      - http://characterbuilderweb-service:80
+      - characterbuilderapi-service:80
+      - characterbuilderweb-service:80
     relabel_configs:
     - source_labels: [__address__]
       target_label: __param_target
@@ -19,5 +19,5 @@ scrape_configs:
     scrape_interval: 10s
     static_configs:
     - targets:
-      - http://characterbuilderapi-service:80
-      - http://characterbuilderweb-service:80
+      - characterbuilderapi-service:80
+      - characterbuilderweb-service:80
