@@ -1,12 +1,12 @@
-﻿using CharacterBuilderWeb.Components;
+﻿using CharacterBuilderShared.Models;
+using CharacterBuilderWeb.Components;
 using CharacterBuilderWeb.Services;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
-using CharacterBuilderShared.Models;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 
 var builder = WebApplication.CreateBuilder(args);
