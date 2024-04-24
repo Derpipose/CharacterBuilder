@@ -50,7 +50,7 @@ namespace CharacterBuilderShared.Models
             {
                 _DbContext.PlayerCharacter.Add(character);
                 await _DbContext.SaveChangesAsync();
-                //CharacterMonitoring.characterupDownCounter.Add(1);
+                CharacterMonitoring.characterupDownCounter.Add(1);
             }
             // else{
             //     throw new Exception ("Character not defined properly");
@@ -82,8 +82,8 @@ namespace CharacterBuilderShared.Models
 
                 _DbContext.PlayerCharacter.Remove(character);
                 await _DbContext.SaveChangesAsync();
-                //CharacterMonitoring.characterupDownCounter.Add(-1);
-                //CharacterMonitoring.characterdeletecounter += 1;
+                CharacterMonitoring.characterupDownCounter.Add(-1);
+                CharacterMonitoring.characterdeletecounter += 1;
 
             }
 
@@ -102,7 +102,7 @@ namespace CharacterBuilderShared.Models
             }
 
             await _DbContext.SaveChangesAsync();
-            //CharacterMonitoring.characterupdatecounter += 1;
+            CharacterMonitoring.characterupdatecounter += 1;
         }
 
     }
