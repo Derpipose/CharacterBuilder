@@ -9,7 +9,7 @@ spec:
   tls:
   - hosts:
     - cryptsandcreatures.duckdns.org
-    secretName: rileyfinal-kube-tls-production
+    secretName: rileyfinal-kube-tls-production-dd87f
   ingressClassName: nginx
   rules:
   - host: cryptsandcreatures.duckdns.org
