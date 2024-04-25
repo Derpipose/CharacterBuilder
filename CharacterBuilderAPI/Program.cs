@@ -14,6 +14,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
+builder.Services.AddHealthChecks();
+
 
 var connectionstring = builder.Configuration["ListDb"];
 // var connectionstring = builder.Configuration.GetConnectionString("ListDb");
