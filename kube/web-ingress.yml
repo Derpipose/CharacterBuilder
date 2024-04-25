@@ -3,7 +3,13 @@ kind: Ingress
 metadata:
   namespace: rileyfinal
   name: characterbuilder-ingress
+  annotations: 
+    cert-manager.io/cluster-issuer: cert-manager-webhook-duckdns-rileyfinal-production
 spec:
+  tls:
+  - hosts:
+    - cryptsandcreatures.duckdns.org
+    secretName: rileyfinal-kube-tls-production
   ingressClassName: nginx
   rules:
   - host: cryptsandcreatures.duckdns.org
