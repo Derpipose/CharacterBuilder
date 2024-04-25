@@ -90,7 +90,9 @@ app.MapHealthChecks("/health", new HealthCheckOptions
     }
 });
 
-app.MapGet("/=", () => {
+app.MapGet("/otherhealth", () =>  "healthy");
+
+app.MapGet("/", () => {
     CharacterMonitoring.interactivecounter += 1;
     Results.Redirect("/swagger/index.html");
 });
