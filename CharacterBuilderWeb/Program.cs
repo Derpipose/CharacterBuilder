@@ -110,6 +110,10 @@ app.UseHsts();
 app.UseRouting();
 app.UseStaticFiles();
 app.UseAntiforgery();
+
+app.MapGet("/otherhealth", () => "healthy");
+
+
 // app.MapGet("/health", () => "Healthy");
 
 // app.MapHealthChecks("/health", new HealthCheckOptions
