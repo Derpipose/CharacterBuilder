@@ -14,7 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-builder.Services.AddHealthChecks();
+// builder.Services.AddHealthChecks();
 
 
 var connectionstring = builder.Configuration["ListDb"];
@@ -80,15 +80,15 @@ app.UseSwagger();
 app.UseSwaggerUI();
 // }
 
-app.MapHealthChecks("/health", new HealthCheckOptions
-{
-    AllowCachingResponses = false,
-    ResultStatusCodes = {
-        [HealthStatus.Healthy] = StatusCodes.Status200OK,
-        [HealthStatus.Degraded] = StatusCodes.Status200OK,
-        [HealthStatus.Unhealthy] = StatusCodes.Status503ServiceUnavailable
-    }
-});
+// app.MapHealthChecks("/health", new HealthCheckOptions
+// {
+//     AllowCachingResponses = false,
+//     ResultStatusCodes = {
+//         [HealthStatus.Healthy] = StatusCodes.Status200OK,
+//         [HealthStatus.Degraded] = StatusCodes.Status200OK,
+//         [HealthStatus.Unhealthy] = StatusCodes.Status503ServiceUnavailable
+//     }
+// });
 
 app.MapGet("/otherhealth", () => "healthy");
 
