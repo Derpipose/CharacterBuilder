@@ -2,18 +2,18 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   namespace: ${NAMESPACE}
-  name: characterbuilder-ingress
+  name: characterbuilderapi-ingress
 spec:
   ingressClassName: nginx
   rules:
-  - host: ${PULL_REQUEST_ID}cryptsandcreatures.alex-kube.duckdns.org
+  - host: ${PULL_REQUEST_ID}swagger.cryptsandcreatures.duckdns.org
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: characterbuilder-service
+            name: characterbuilderapi-service
             port:
               number: 80
 
