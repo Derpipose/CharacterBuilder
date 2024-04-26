@@ -41,7 +41,7 @@ namespace CharacterBuilderShared.Models
                 _DbContext.Player.Add(player);
                 await _DbContext.SaveChangesAsync();
                 CharacterMonitoring.playerupDownCounter.Add(1);
-                CharacterMonitoring.playercreatecounter+= 1;
+                CharacterMonitoring.playercreatecounter += 1;
             }
             // else{
             //     throw new Exception ("Player not defined properly");

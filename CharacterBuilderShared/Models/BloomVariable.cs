@@ -11,7 +11,7 @@ namespace CharacterBuilderShared.Models
         public bool bloomVariable;
         public BloomVariable()
         {
-               bloomVariable = false;
+            bloomVariable = false;
         }
         public void SetVariableFlip()
         {
