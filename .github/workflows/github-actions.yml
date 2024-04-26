@@ -2,6 +2,8 @@ name: CharacterBuilderFinalProject
 run-name: Derp is derping
 on:
   push:
+    branches:
+      - master
   workflow_dispatch:
 
 jobs:
