@@ -29,26 +29,33 @@
                 <span class="bi bi-clipboard-heart" aria-hidden="true"></span> Characters
             </NavLink>
         </div>
+        @if (bloom) {
+            <div>
+                <!-- Content to show when Bloom is true -->
+                <h1>The Bloom is True!</h1>
+            </div>
+        } else {
+            <div>
+                <!-- Content to show when Bloom is false -->
+                <h1>The Bloom is False!</h1>
+            </div>
+        }
     </nav>
 </div>
-@{
+
+
+@code{
+    public bool bloom;
+
+    protected override void OnInitialized() {
     // Accessing the environment variable
-    var bloomValue = Configuration["Bloom"];
-    if(bloomValue == null) {
-        bloomValue = "false";
+        var bloomValue = Configuration["Bloom"];
+        if(bloomValue == null) {
+            bloomValue = "false";
+        }
+        // Parse the string value to a boolean
+        bloom = bool.Parse(bloomValue);
     }
-    // Parse the string value to a boolean
-    var bloom = bool.Parse(bloomValue);
 }
 
-@if (bloom) {
-    <div>
-        <!-- Content to show when Bloom is true -->
-        <h1>The Bloom is True!</h1>
-    </div>
-} else {
-    <div>
-        <!-- Content to show when Bloom is false -->
-        <h1>The Bloom is False!</h1>
-    </div>
-}
+
