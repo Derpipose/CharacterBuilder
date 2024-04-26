@@ -3,7 +3,7 @@ run-name: Derp is derping
 on:
   push:
     branches:
-      - master
+      - main
   workflow_dispatch:
 
 jobs:
