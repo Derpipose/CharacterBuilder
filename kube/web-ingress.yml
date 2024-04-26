@@ -4,15 +4,15 @@ metadata:
   namespace: rileyfinal
   name: characterbuilder-ingress
   annotations: 
-    # cert-manager.io/cluster-issuer: cert-manager-webhook-duckdns-rileyfinal-production
-    cert-manager.io/cluster-issuer: cert-manager-webhook-duckdns-alex-production
+    cert-manager.io/cluster-issuer: cert-manager-webhook-duckdns-rileyfinal-production
+    # cert-manager.io/cluster-issuer: cert-manager-webhook-duckdns-alex-production
 spec:
   tls:
   - hosts:
-    # - cryptsandcreatures.duckdns.org
-    # secretName: rileyfinal-kube-tls-production-dd87
-    - cryptsandcreatures.alex-kube.duckdns.org
-    secretName:
+    - cryptsandcreatures.duckdns.org
+    secretName: rileyfinal-kube-tls-production-dd87
+    # - cryptsandcreatures.alex-kube.duckdns.org
+    # secretName:
   ingressClassName: nginx
   rules:
   - host: cryptsandcreatures.duckdns.org
