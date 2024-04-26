@@ -1,4 +1,8 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@using CharacterBuilderShared.Models
+@using CharacterBuilderWeb.Services;
+@inject IConfiguration Configuration
+
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">CharacterBuilderWeb</a>
     </div>
@@ -27,4 +31,24 @@
         </div>
     </nav>
 </div>
+@{
+    // Accessing the environment variable
+    var bloomValue = Configuration["Bloom"];
+    if(bloomValue == null) {
+        bloomValue = "false";
+    }
+    // Parse the string value to a boolean
+    var bloom = bool.Parse(bloomValue);
+}
 
+@if (bloom) {
+    <div>
+        <!-- Content to show when Bloom is true -->
+        <h1>The Bloom is True!</h1>
+    </div>
+} else {
+    <div>
+        <!-- Content to show when Bloom is false -->
+        <h1>The Bloom is False!</h1>
+    </div>
+}

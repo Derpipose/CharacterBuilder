@@ -51,6 +51,8 @@ namespace CharacterBuilderShared.Models
                 _DbContext.PlayerCharacter.Add(character);
                 await _DbContext.SaveChangesAsync();
                 CharacterMonitoring.characterupDownCounter.Add(1);
+                CharacterMonitoring.charactercreatecounter += 1;
+
             }
             // else{
             //     throw new Exception ("Character not defined properly");

@@ -1,0 +1,27 @@
+﻿@page "/derpaderp"
+
+@inject NavigationManager NavigationManager
+@rendermode InteractiveServer
+
+<PageTitle>Home</PageTitle>
+
+<h1>Welcome to the Dnd Character builder for T&D</h1>
+
+@* <button @onclick="SignIn">Sign In</button> *@
+
+<button @onclick="Register">Create Player</button>
+
+@code {
+    /*private void SignIn() {
+        NavigationManager.NavigateTo("/signin");
+    }*/
+
+    protected override void OnInitialized() {
+    }
+
+    private void Register() {
+        Console.WriteLine("I have done a navigate!");
+        NavigationManager.NavigateTo("/register");
+
+    }
+}
