@@ -14,13 +14,22 @@ jobs:
                 export PULL_REQUEST_ID=${{ github.event.pull_request.number }}
                 export NAMESPACE="rileyfinal-pr-$PULL_REQUEST_ID"
                 kubectl create namespace $NAMESPACE || true
+                
+                docker build -t 144.17.92.12:5000/rileyfinal/characterbuilder:$GITHUB_RUN_ID -f CharacterBuilderWeb/Dockerfile .
+                docker push 144.17.92.12:5000/rileyfinal/characterbuilder:$GITHUB_RUN_ID
+                docker build -t 144.17.92.12:5000/rileyfinal/characterbuilderapi:$GITHUB_RUN_ID -f CharacterBuilderAPI/Dockerfile .
+                docker push 144.17.92.12:5000/rileyfinal/characterbuilderapi:$GITHUB_RUN_ID
 
+          
                 cd CharacterBuilderShared
                 kubectl -n rileyfinal delete configmap characterbuilder-postgres-init || true
                 kubectl -n rileyfinal create configmap characterbuilder-postgres-init --from-file=init.sql 
                 cd ..
                 
-                docker build -t 144.17.92.12:5000/rileyfinal/characterbuilder:$GITHUB_RUN_ID -f CharacterBuilderWeb/Dockerfile .
+                for file in ./kube-pr/*; do
+                  echo "Applying $file"
+                  cat $file | envsubst | kubectl apply -f -
+                done
 
             - uses: actions/github-script@v7
               with:
