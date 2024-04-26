@@ -18,6 +18,23 @@ namespace CharacterBuilderShared.Models
             _DbContext = buildercontext;
         }
 
+        [LoggerMessage(Level = LogLevel.Information, Message = "Hello World! Logging is {Description}.")]
+        static partial void LogStartupMessage(ILogger logger, string description);
+
+
+
+        [LoggerMessage(Level = LogLevel.Information, Message = "1 Player is being {Description}.")]
+        static partial void LogFunctionMessage(ILogger logger, string description);
+
+
+
+        [LoggerMessage(Level = LogLevel.Warning, Message = "CAUSE FOR CONCERN! {Description}.")]
+        static partial void LogWarningMessage(ILogger logger, string description);
+
+
+        [LoggerMessage(Level = LogLevel.Error, Message = "An Error Has Occurred! {Description}")]
+        static partial void LogErrorMessage(ILogger logger, string description);
+
         public async Task<IEnumerable<Player>> GetAllPlayers()
         {
             var mylist = await _DbContext.Player.ToListAsync();

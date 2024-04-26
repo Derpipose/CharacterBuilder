@@ -12,7 +12,7 @@ spec:
     # - cryptsandcreatures.duckdns.org
     # secretName: rileyfinal-kube-tls-production-dd87
     - cryptsandcreatures.alex-kube.duckdns.org
-    # secretName:
+    secretName: rileyfinal-derpy-alex-secret
   ingressClassName: nginx
   rules:
   # - host: cryptsandcreatures.duckdns.org

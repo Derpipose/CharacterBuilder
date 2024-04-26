@@ -16,8 +16,21 @@ namespace CharacterBuilderShared.Models
         {
             _logger = logger;
             _DbContext = buildercontext;
+            LogStartupMessage(logger, "Fun");
         }
 
+        [LoggerMessage(Level = LogLevel.Information, Message = "Hello World! Logging is {Description}.")]
+        static partial void LogStartupMessage(ILogger logger, string description);
+
+
+
+        [LoggerMessage(Level = LogLevel.Information, Message = "1 Character is being {Description}.")]
+        static partial void LogFunctionMessage(ILogger logger, string description);
+
+
+
+        [LoggerMessage(Level = LogLevel.Warning, Message = "CAUSE FOR CONCERN! {Description}.")]
+        static partial void LogWarningMessage(ILogger logger, string description);
 
         public async Task<IEnumerable<Character>> GetAllCharacters()
         {
