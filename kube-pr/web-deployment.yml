@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: ${NAMESPACE}
+  name: characterbuilder-deployment
+  labels:
+    app: characterbuilder
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: characterbuilder
+  template:
+    metadata:
+      labels:
+        app: characterbuilder
+    spec:
+      containers:
+      - name: characterbuilder
+        image: 144.17.92.12:5000/${NAMESPACE}/characterbuilder:${GITHUB_RUN_ID}
+        ports:
+        - containerPort: 8080
+        env:
+        - name: apiaccess
+          value: http://characterbuilderapi-service:80
+        - name: MYDATABASECONNECTIONSTRING
+          value: Server=characterbuilder-db-service;password=riley-password;user id=riley-user;database=rileydb;
+        - name: COLLECTOR_URL
+          value: http://otel-collector-service:4317/
+        - name: LOKI_URL
+          value: http://loki-service:3100/
+        livenessProbe:
+          httpGet:
+            path: /otherhealth
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /otherhealth
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5

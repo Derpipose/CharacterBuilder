@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: ${NAMESPACE}
+  name: characterbuilder-service
+spec:
+  type: ClusterIP
+  selector:
+    app: characterbuilder
+  ports:
+    - port: 80
+      targetPort: 8080

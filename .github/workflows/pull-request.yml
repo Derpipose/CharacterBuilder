@@ -28,5 +28,5 @@ jobs:
                     issue_number: context.issue.number,
                     owner: context.repo.owner,
                     repo: context.repo.repo,
-                    body: 'check out the pull request at <http://${{ github.event.pull_request.number }}.cryptsandcreatures.duckdns.org>'
+                    body: 'check out the pull request at <http://${{ github.event.pull_request.number }}cryptsandcreatures.alex-kube.duckdns.org>'
                   });

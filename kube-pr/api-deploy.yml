@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: ${NAMESPACE}
+  name: characterbuilderapi-deployment
+  labels:
+    app: characterbuilderapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: characterbuilderapi
+  template:
+    metadata:
+      labels:
+        app: characterbuilderapi
+    spec:
+      containers:
+      - name: characterbuilderapi
+        image: 144.17.92.12:5000/rileyfinal/characterbuilderapi:${GITHUB_RUN_ID}
+        ports:
+        - containerPort: 8080
+        env:
+        - name: ListDb
+          value: Server=characterbuilder-db-service;password=riley-password;user id=riley-user;database=rileydb;
