@@ -2,6 +2,8 @@
 @using CharacterBuilderShared.Models;
 @using CharacterBuilderWeb.Services;
 @inject PlayerApiService playerApiService;
+@inject IJSRuntime JSRuntime;
+
 @rendermode InteractiveServer
 
 
@@ -14,6 +16,7 @@
         <tr>
             <th>Name</th>
             <th>Username</th>
+            <th>Pin</th>
         </tr>
     </thead>
     <tbody>
@@ -21,6 +24,10 @@
             <tr>
                 <td>@player.PlayerName</td>
                 <td>@player.Username</td>
+                <td>@player.Pin</td>
+                <td>
+                    <button @onclick="() => DeletePlayer(player.Id)">Delete Player</button>
+                </td>
             </tr>
         }
     </tbody>
@@ -41,5 +48,19 @@
         players = listplayers;
     }
 
-
+    private async Task DeletePlayer(int playerId) {
+        // Fetch the pin for the selected player from the user
+            var enteredPin = await JSRuntime.InvokeAsync<int>("prompt", "Please enter the player PIN:");
+            // Check if the entered PIN matches the player's PIN
+            var player = players.FirstOrDefault(p => p.Id == playerId);
+        if (player != null) {
+            // Call the delete player API method
+            await playerApiService.DeleteThisPlayer(playerId);
+            // Reload player data
+            await LoadPlayerData();
+        } else {
+            // Show an alert if the PIN is incorrect
+            await JSRuntime.InvokeVoidAsync("alert", "Incorrect PIN. Player not deleted.");
+        }
+    }
 }

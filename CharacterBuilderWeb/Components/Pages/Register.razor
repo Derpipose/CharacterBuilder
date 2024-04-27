@@ -25,8 +25,6 @@
             Username is already taken. Please choose a different one.
         </div>
     }
-    //check username avaliablity on change
-    //if username check is false show nothing, if true show a warning saying the username is taken already
     <label for="Pin" class="form-label">4 digit pin</label>
     <InputNumber id="Pin" class="form-control"
                  @bind-Value="player.Pin" />
@@ -48,6 +46,7 @@
     private Player player = new Player();
     private bool isLoading = false;
     private bool usernamecheck = true;
+    
 
     protected override void OnInitialized() {
         player = new Player();
@@ -59,6 +58,9 @@
         // Validate form inputs
         if (string.IsNullOrEmpty(player.Username) || string.IsNullOrEmpty(player.PlayerName) || player.Pin < 1000 || player.Pin > 9999 || usernamecheck == false) {
             isLoading = false; 
+            if(usernamecheck == false) {
+                logger.LogInformation($"Someone is trying to use {player.Username}, but it is already taken.");
+            }
             return;
         }
 
