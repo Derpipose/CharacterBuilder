@@ -71,7 +71,7 @@ builder.Logging.AddOpenTelemetry(options =>
             });
 });
 
-
+builder.Services.AddLogging();
 
 builder.Services.AddOpenTelemetry()
       .ConfigureResource(resource => resource.AddService(serviceName))
