@@ -4,7 +4,7 @@
 @using CharacterBuilderWeb.Services;
 @inject PlayerApiService playerApiService;
 @inject NavigationManager NavigationManager
-@inject ILogger logger
+@inject ILogger<Register> logger
 @rendermode InteractiveServer
 
 <PageTitle>Registration</PageTitle>
@@ -68,7 +68,7 @@
         //user name if that is the case.
 
         await playerApiService.AddThisPlayer(player);
-        //logger.LogInformation("I created a player and will now do a navigate!");
+        logger.LogInformation("I created a player and will now do a navigate!");
 
         NavigationManager.NavigateTo("/players");
     }
