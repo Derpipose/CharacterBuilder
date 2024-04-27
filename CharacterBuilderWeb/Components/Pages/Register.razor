@@ -4,6 +4,7 @@
 @using CharacterBuilderWeb.Services;
 @inject PlayerApiService playerApiService;
 @inject NavigationManager NavigationManager
+@inject ILogger logger
 @rendermode InteractiveServer
 
 <PageTitle>Registration</PageTitle>
@@ -56,18 +57,18 @@
     private async Task HandleValidSubmit() {
         isLoading = true;
         // Validate form inputs
-        if (string.IsNullOrEmpty(player.Username) || string.IsNullOrEmpty(player.PlayerName) || player.Pin < 1000 || player.Pin > 9999) {
+        if (string.IsNullOrEmpty(player.Username) || string.IsNullOrEmpty(player.PlayerName) || player.Pin < 1000 || player.Pin > 9999 || usernamecheck == false) {
             isLoading = false; 
             return;
         }
 
-
+       
 
         //TODO: Create way to check if username has been used already and throw the form back to get a new
         //user name if that is the case.
 
         await playerApiService.AddThisPlayer(player);
-        Console.WriteLine("I created a player and will now do a navigate!");
+        logger.LogInformation("I created a player and will now do a navigate!");
 
         NavigationManager.NavigateTo("/players");
     }
