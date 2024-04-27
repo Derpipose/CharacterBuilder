@@ -18,7 +18,6 @@
         <tr>
             <th>Name</th>
             <th>Username</th>
-            <th>Pin</th>
         </tr>
     </thead>
     <tbody>
@@ -26,10 +25,12 @@
             <tr>
                 <td>@player.PlayerName</td>
                 <td>@player.Username</td>
-                <td>@player.Pin</td>
+                @if (!noplayers) {
+                    
                 <td>
                     <button @onclick="() => DeletePlayer(player.Id)">Delete Player</button>
                 </td>
+                }
             </tr>
         }
     </tbody>
@@ -37,7 +38,7 @@
 
 @code {
     private List<Player> players = new List<Player>();
-
+    private bool noplayers = false;
     protected override async Task OnInitializedAsync() {
         await LoadPlayerData();
     }
@@ -46,6 +47,7 @@
         var listplayers = await playerApiService.GetAllPlayers();
         if (listplayers == null || listplayers.Count == 0) {
             listplayers = new List<Player> { new Player { PlayerName = "No Players Yet!", Id = 0 } };
+            noplayers = true;
         }
         players = listplayers;
     }
@@ -63,6 +65,7 @@
         var player = players.FirstOrDefault(p => p.Id == playerId && p.Pin == enteredPin);
         if (player != null) {
             await playerApiService.DeleteThisPlayer(playerId);
+            StateHasChanged();
         } else {
             logger.LogInformation("Pin entered insuccessfully for player deletion");
         }
