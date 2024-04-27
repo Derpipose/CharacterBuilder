@@ -14,11 +14,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-// builder.Services.AddHealthChecks();
-
 
 var connectionstring = builder.Configuration["ListDb"];
-// var connectionstring = builder.Configuration.GetConnectionString("ListDb");
 
 builder.Services.AddDbContext<BuilderContext>(options => options.UseNpgsql(connectionstring));
 
@@ -80,16 +77,6 @@ app.UseSwagger();
 app.UseSwaggerUI();
 // }
 
-// app.MapHealthChecks("/health", new HealthCheckOptions
-// {
-//     AllowCachingResponses = false,
-//     ResultStatusCodes = {
-//         [HealthStatus.Healthy] = StatusCodes.Status200OK,
-//         [HealthStatus.Degraded] = StatusCodes.Status200OK,
-//         [HealthStatus.Unhealthy] = StatusCodes.Status503ServiceUnavailable
-//     }
-// });
-
 app.MapGet("/otherhealth", () => "healthy");
 
 app.MapGet("/", () =>
@@ -99,7 +86,6 @@ app.MapGet("/", () =>
 });
 app.UseOpenTelemetryPrometheusScrapingEndpoint();
 
-// app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

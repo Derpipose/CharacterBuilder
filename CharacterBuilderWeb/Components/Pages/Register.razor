@@ -18,7 +18,14 @@
                @bind-Value="player.PlayerName" />
     <label for="Username" class="form-label">Username</label>
     <InputText id="Username" class="form-control"
-               @bind-Value="player.Username" />
+               @bind-Value="player.Username" @oninput="CheckUsernameAvailability" />
+    @if (!usernamecheck) {
+        <div class="alert alert-warning" role="alert">
+            Username is already taken. Please choose a different one.
+        </div>
+    }
+    //check username avaliablity on change
+    //if username check is false show nothing, if true show a warning saying the username is taken already
     <label for="Pin" class="form-label">4 digit pin</label>
     <InputNumber id="Pin" class="form-control"
                  @bind-Value="player.Pin" />
@@ -39,6 +46,7 @@
 @code {
     private Player player = new Player();
     private bool isLoading = false;
+    private bool usernamecheck = true;
 
     protected override void OnInitialized() {
         player = new Player();
@@ -53,6 +61,8 @@
             return;
         }
 
+
+
         //TODO: Create way to check if username has been used already and throw the form back to get a new
         //user name if that is the case.
 
@@ -60,5 +70,31 @@
         Console.WriteLine("I created a player and will now do a navigate!");
 
         NavigationManager.NavigateTo("/players");
+    }
+
+    private async Task<bool> checkUsername() {
+        List<Player> ?listplayers = await playerApiService.GetAllPlayers();
+        if (listplayers == null || listplayers.Count == 0) {
+            return true;
+        } else {
+            foreach(Player playercheck in listplayers) {
+                if (playercheck.Username == player.Username) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+
+    }
+
+    private async Task CheckUsernameAvailability(ChangeEventArgs e) {
+        string ?v = e.Value?.ToString();
+        if(v is null) {
+            v = "";
+        }
+        player.Username = v;
+        usernamecheck = await checkUsername();
+        StateHasChanged(); 
     }
 }

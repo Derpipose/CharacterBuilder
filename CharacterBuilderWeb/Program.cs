@@ -54,7 +54,7 @@ builder.Services.AddScoped<StatsApiService>(provider =>
     return new StatsApiService(httpclient);
 });
 
-// builder.Services.AddServerSideBlazor();
+
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 
 const string serviceName = "CharactersandPlayersWebsite";
@@ -93,8 +93,6 @@ builder.Services.AddOpenTelemetry()
               o.Endpoint = new Uri("http://otel-collector-service:4317");
           }));
 
-// Add services to the container.
-// builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
@@ -114,19 +112,7 @@ app.UseAntiforgery();
 app.MapGet("/otherhealth", () => "healthy");
 
 
-// app.MapGet("/health", () => "Healthy");
 
-// app.MapHealthChecks("/health", new HealthCheckOptions
-// {
-//     AllowCachingResponses = false,
-//     ResultStatusCodes = {
-//         [HealthStatus.Healthy] = StatusCodes.Status200OK,
-//         [HealthStatus.Degraded] = StatusCodes.Status200OK,
-//         [HealthStatus.Unhealthy] = StatusCodes.Status503ServiceUnavailable
-//     }
-// });
-
-// app.MapBlazorHub();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
