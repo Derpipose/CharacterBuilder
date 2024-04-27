@@ -59,6 +59,7 @@ namespace CharacterBuilderShared.Models
                 await _DbContext.SaveChangesAsync();
                 CharacterMonitoring.playerupDownCounter.Add(1);
                 CharacterMonitoring.playercreatecounter += 1;
+                LogFunctionMessage(_logger, "added");
             }
             // else{
             //     throw new Exception ("Player not defined properly");
@@ -74,6 +75,7 @@ namespace CharacterBuilderShared.Models
                 _DbContext.Player.Remove(player);
                 CharacterMonitoring.playerupDownCounter.Add(-1);
                 CharacterMonitoring.playerdeletecounter += 1;
+                LogFunctionMessage(_logger, "deleted");
 
             }
             // else {
@@ -91,6 +93,8 @@ namespace CharacterBuilderShared.Models
                 oldplayer.PlayerName = player.PlayerName;
                 oldplayer.Veteran = player.Veteran;
                 oldplayer.Pin = player.Pin;
+                LogFunctionMessage(_logger, "updated");
+
             }
 
             await _DbContext.SaveChangesAsync();
