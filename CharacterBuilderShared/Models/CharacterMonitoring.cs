@@ -19,7 +19,7 @@ namespace CharacterBuilderShared.Models
         public static int charactercreationpagecounter { get; set; } = 0;
         public static int charactercreatecounter { get; set; } = 0;
         public static int playercreatecounter { get; set; } = 0;
-        public static int homepagecounter { get; set; } = 0;    
+        public static int homepagecounter { get; set; } = 0;
 
 
         public static Meter meter { get; set; } = new("charactermetrics");

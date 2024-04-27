@@ -18,8 +18,36 @@ jobs:
         with:
           dotnet-version: 8.0.102
 
+      - name: Formatting Ensured
+        run: dotnet format --verify-no-changes --verbosity diagnostic
+        
+      - name: Set Up Unit Tests
+        run: |
+          cd CharacterTests
+          docker compose up --build -d
+          docker-compose exec -T charactertesting dotnet test
+        
+      - name: Cleaning Up Unit Tests
+        if: always()
+        run: |
+          cd CharacterTests
+          docker compose down -v
 
+      - name: Set Up Integrated Tests
+        run: |
+          cd CharacterTests
+          docker compose up --build -d
+          docker-compose exec -T charactertesting dotnet test
+        
+      - name: Cleaning Up Integrated Tests
+        if: always()
+        run: |
+          cd CharacterTests
+          docker compose down -v
 
+      - name: Build No Error
+        run: |
+          dotnet build --warnaserror
 
       - name: Kube
         run: |
@@ -50,27 +78,6 @@ jobs:
             echo "Applying $file"
             cat $file | envsubst | kubectl apply -f -
           done
-
-      - name: Formatting Ensured
-        run: dotnet format --verify-no-changes --verbosity diagnostic
-        
-      - name: Set Up Tests
-        run: |
-          cd CharacterTests
-          docker compose up --build -d
-          docker-compose exec -T charactertesting dotnet test
-        
-      - name: Cleaning Up Tests
-        if: always()
-        run: |
-          cd CharacterTests
-          docker compose down -v
-
-      - name: Build No Error
-        run: |
-          dotnet build --warnaserror
-
-
 
       - name: Send MS Teams Notification on Fail
         if: ${{ failure() }}
