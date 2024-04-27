@@ -19,6 +19,7 @@ namespace CharacterBuilderShared.Models
         public static int charactercreationpagecounter { get; set; } = 0;
         public static int charactercreatecounter { get; set; } = 0;
         public static int playercreatecounter { get; set; } = 0;
+        public static int homepagecounter { get; set; } = 0;    
 
 
         public static Meter meter { get; set; } = new("charactermetrics");
@@ -33,6 +34,9 @@ namespace CharacterBuilderShared.Models
         public static ObservableCounter<int> observableplayercreateCounter = meter.CreateObservableCounter<int>("playerscreated", () => playercreatecounter, "player_created_total");
         public static ObservableCounter<int> observableplayerdeleteCounter = meter.CreateObservableCounter<int>("playersdeleted", () => playerdeletecounter, "player_deleted_total");
         public static ObservableCounter<int> observableplayerupdateCounter = meter.CreateObservableCounter<int>("playersupdated", () => playerupdatecounter, "player_updated_total");
+        public static ObservableCounter<int> observablehomepageCounter = meter.CreateObservableCounter<int>("homepage", () => homepagecounter, "homepageviews_total");
+        public static ObservableCounter<int> observableplayerpageCounter = meter.CreateObservableCounter<int>("playerpage", () => playerpagecounter, "playerpageviews_total");
+        public static ObservableCounter<int> observablecharacterpageCounter = meter.CreateObservableCounter<int>("characterpage", () => characterpagecounter, "characterpageviews_total");
 
 
     }

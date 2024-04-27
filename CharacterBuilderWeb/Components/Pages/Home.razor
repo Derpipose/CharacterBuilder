@@ -1,6 +1,7 @@
 ﻿@page "/"
 
 @inject NavigationManager NavigationManager
+@using CharacterBuilderShared.Models;
 @rendermode InteractiveServer
 
 <PageTitle>Home</PageTitle>
@@ -17,6 +18,7 @@
     }*/
 
     protected override void OnInitialized() {
+        CharacterMonitoring.homepagecounter += 1;
     }
 
     private void Register() {

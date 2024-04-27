@@ -40,6 +40,7 @@
 
     protected override async Task OnInitializedAsync() {
         await LoadData();
+        CharacterMonitoring.characterpagecounter += 1;
     }
 
     private async Task LoadData() {

@@ -41,6 +41,7 @@
     private bool noplayers = false;
     protected override async Task OnInitializedAsync() {
         await LoadPlayerData();
+        CharacterMonitoring.playerpagecounter += 1;
     }
 
     private async Task LoadPlayerData() {
