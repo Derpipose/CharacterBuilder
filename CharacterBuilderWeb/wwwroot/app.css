@@ -49,3 +49,12 @@ h1:focus {
 .darker-border-checkbox.form-check-input {
     border-color: #929292;
 }
+
+table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+th, td {
+    border: 1px solid black; 
+}
