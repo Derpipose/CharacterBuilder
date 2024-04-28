@@ -48,7 +48,7 @@
 
 @code {
     private Character character = new Character();
-    private List<CharRace> races = new();
+    private List<CharRace> ?races = new();
     private List<RaceVar> ?varraces;
     private bool isLoading = false;
 
@@ -59,7 +59,7 @@
 
     public async Task LoadEverything()
     {
-        races = await charRaceApiService.GetAllRacesPerCampaign("Fantasy") ?? throw new Exception("The races didn't load");
+        races = await charRaceApiService.GetAllRacesPerCampaign("Fantasy");
     }
 
     // Method to handle form submission
