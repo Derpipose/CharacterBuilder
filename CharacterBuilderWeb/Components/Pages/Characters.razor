@@ -7,6 +7,9 @@
 @inject RaceVarApiService raceVarApiService
 @inject CharClassApiService charClassApiService
 @inject IStatsApiService statsApiService
+@inject ILogger<Characters> logger
+@inject IJSRuntime JSRuntime;
+
 @rendermode InteractiveServer
 
 
@@ -22,6 +25,7 @@
             <th>Character Class</th>
             <th>Character Race</th>
             <th>Character Level</th>
+
         </tr>
     </thead>
     <tbody>
@@ -53,7 +57,18 @@
                         }
                     }
                 }
-                <td>@character.StatsId</td>
+                @if(character.StatsId == null) {
+                    <td></td>
+                } else {
+                    int statsId = (int)character.StatsId;
+                    var stat = statsApiService.GetThisStats(statsId);
+                    <td>@stat.Id</td>
+                }
+                @if (!nocharacters) {
+                    <td>
+                        <button @onclick="() => DeleteCharacter(character.Id, character.PlayerId)">Delete Character</button>
+                    </td>
+                }
 
             </tr>
         }
@@ -66,6 +81,7 @@
     private List<CharRace> races = new List<CharRace>();
     private List<CharClass> classes = new List<CharClass>();
     private Stats stat = new Stats();
+    private bool nocharacters = false;
 
     protected override async Task OnInitializedAsync() {
         await LoadData();
@@ -79,7 +95,29 @@
         characters = listcharacters ?? new List<Character> { new Character { CharName = "No Characters Yet!" } };
         races = await charRaceApiService.GetAllRacesPerCampaign("Fantasy") ?? new List<CharRace>();
         classes = await charClassApiService.GetAllCharClasses() ?? new List<CharClass>();
-        
+        if(characters.Count == 0) {
+            nocharacters = true;
+        } else {
+            nocharacters = false;
+        }
+    }
+
+    private async Task DeleteCharacter(int characterId, int playerId) {
+        var enteredPinString = await JSRuntime.InvokeAsync<string>("prompt", "Please enter the player PIN:");
+        if (!int.TryParse(enteredPinString, out int enteredPin)) {
+            // Handle invalid input (enteredPinString is not a valid integer)
+            await JSRuntime.InvokeVoidAsync("alert", "Invalid PIN format. Please enter a valid integer PIN.");
+            return;
+        }
+
+        // Check if the entered PIN matches the player's PIN
+        var player = players.FirstOrDefault(p => p.Id == playerId && p.Pin == enteredPin);
+        if (player != null) {
+            await characterApiService.DeleteThisCharacter(characterId);
+            StateHasChanged();
+        } else {
+            logger.LogInformation("Pin entered insuccessfully for player deletion");
+        }
     }
 
 

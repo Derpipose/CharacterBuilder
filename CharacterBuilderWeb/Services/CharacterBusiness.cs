@@ -23,7 +23,7 @@ namespace CharacterBuilderWeb.Services
 
         public async Task GiveStats(Character workingcharacter, Stats workingstats, Player workingplayer)
         {
-            List<Character> ?oldcharlist = await characterApiService.GetAllCharacterByPlayerId(workingplayer.Id) ?? null;
+            List<Character>? oldcharlist = await characterApiService.GetAllCharacterByPlayerId(workingplayer.Id) ?? null;
             if (oldcharlist == null)
             {
                 oldcharlist = new List<Character>();

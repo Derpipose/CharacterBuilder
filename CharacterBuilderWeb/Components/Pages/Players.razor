@@ -34,10 +34,9 @@
                     <td>@player.Pin</td>
                 }
                 @if (!noplayers) {
-                    
-                <td>
-                    <button @onclick="() => DeletePlayer(player.Id)">Delete Player</button>
-                </td>
+                    <td>
+                        <button @onclick="() => DeletePlayer(player.Id)">Delete Player</button>
+                    </td>
                 }
             </tr>
         }
