@@ -21,15 +21,15 @@
 <EditForm Model="@character" OnValidSubmit="@HandleValidSubmit">
     <label for="Username" class="form-label">Username</label>
     <InputText id="Username" class="form-control"
-                @bind-Value = "player.Username" @oninput="CheckValidity"/>
+                @bind-Value = "player.Username"/>
     <label for="Pin" class="form-label">Pin</label>
     <InputNumber id="Pin" class="form-control"
-                @bind-Value = "player.Pin" @oninput="CheckValidity"/>
-    @if (!pinvalidated) {
-        <div class="alert alert-warning" role="alert">Pin is invalid!</div>
+                @bind-Value = "player.Pin"/>
+    @if (pinvalidated) {
+        <div class="alert alert-warning" role="alert">Pin is valid!</div>
     }
-    @if (!usernamevalidated) {
-        <div class="alert alert-warning" role="alert">Username is invalid!</div>
+    @if (usernamevalidated) {
+        <div class="alert alert-warning" role="alert">Username is valid!</div>
     }
 
     <button @onactivate="CheckValidity">Proceed</button>
@@ -37,7 +37,8 @@
 
     @if (!playervalidated) {
         <div class="alert alert-warning" role="alert">Username or Pin is invalid!</div>
-    } else{
+    }
+    @if(playervalidated){
 
     <label for="CharName" class="form-label">Character Name</label>
     <InputText id="CharName" class="form-control" @bind-Value="character.CharName" />
