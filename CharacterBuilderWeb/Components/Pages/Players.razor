@@ -4,6 +4,7 @@
 @inject PlayerApiService playerApiService;
 @inject IJSRuntime JSRuntime;
 @inject ILogger<Register> logger
+@inject IConfiguration Configuration
 
 
 @rendermode InteractiveServer
@@ -18,6 +19,10 @@
         <tr>
             <th>Name</th>
             <th>Username</th>
+            @if (development) {
+                <th>Pin</th>
+            }
+
         </tr>
     </thead>
     <tbody>
@@ -25,6 +30,9 @@
             <tr>
                 <td>@player.PlayerName</td>
                 <td>@player.Username</td>
+                @if (development) {
+                    <td>@player.Pin</td>
+                }
                 @if (!noplayers) {
                     
                 <td>
@@ -39,9 +47,17 @@
 @code {
     private List<Player> players = new List<Player>();
     private bool noplayers = false;
+    public bool development;
+
     protected override async Task OnInitializedAsync() {
         await LoadPlayerData();
         CharacterMonitoring.playerpagecounter += 1;
+        var devValue = Configuration["InDevelopmentDerp"];
+        if (devValue == null) {
+            devValue = "false";
+        }
+        // Parse the string value to a boolean
+        development = bool.Parse(devValue);
     }
 
     private async Task LoadPlayerData() {
