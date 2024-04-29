@@ -12,7 +12,7 @@ using OpenTelemetry.Trace;
 var builder = WebApplication.CreateBuilder(args);
 string uri = Environment.GetEnvironmentVariable("apiaccess") ?? "http://character-api:8080";
 
-builder.Services.AddScoped<CharacterApiService>(provider =>
+builder.Services.AddScoped<ICharacterApiService>(provider =>
 {
     HttpClient httpclient = new HttpClient { BaseAddress = new Uri(uri) };
     return new CharacterApiService(httpclient);

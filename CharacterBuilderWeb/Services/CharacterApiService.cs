@@ -2,7 +2,7 @@
 
 namespace CharacterBuilderWeb.Services
 {
-    public class CharacterApiService
+    public class CharacterApiService : ICharacterApiService
     {
 
         private readonly HttpClient client;

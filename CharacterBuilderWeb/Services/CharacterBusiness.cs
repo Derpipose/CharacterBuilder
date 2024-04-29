@@ -8,12 +8,12 @@ using Microsoft.Extensions.Logging;
 
 namespace CharacterBuilderWeb.Services
 {
-    internal partial class CharacterBusiness
+    public partial class CharacterBusiness
     {
         private readonly ILogger<CharacterBusiness> logger;
-        private CharacterApiService characterApiService;
+        private ICharacterApiService characterApiService;
         private StatsApiService statsApiService;
-        public CharacterBusiness(CharacterApiService service, ILogger<CharacterBusiness> _logger, StatsApiService stats)
+        public CharacterBusiness(ICharacterApiService service, ILogger<CharacterBusiness> _logger, StatsApiService stats)
         {
             logger = _logger;
             statsApiService = stats;

@@ -223,25 +223,7 @@ namespace CharacterTests
             Assert.That(character1.CharName, Is.EqualTo("B"));
         }
 
-        /*[Order(8)]
-        [Test]
-        public async Task MakingAndFindingNewChar()
-        {
-            //GIVEN
-
-
-
-            //WHEN
-            //Getlist for compare
-            //add character
-            //get newlist for compare
-            //Get odd character
-
-            //THEN
-            //When the character has Id
-            //When the character has StatsId
-
-        }*/
+        
 
 
 
