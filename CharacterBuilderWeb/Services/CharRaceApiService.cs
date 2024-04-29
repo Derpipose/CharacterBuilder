@@ -17,7 +17,7 @@ namespace CharacterBuilderWeb.Services
 
         public async Task<List<CharRace>?> GetAllRacesPerCampaign(string campaign)
         {
-            return await client.GetFromJsonAsync<List<CharRace>>($"CharRace/campaign/{campaign}");
+            return await client.GetFromJsonAsync<List<CharRace>>($"campaign/{campaign}");
         }
 
         public async Task<CharRace?> GetThisRace(int id)

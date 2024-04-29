@@ -17,7 +17,7 @@ namespace CharacterBuilderWeb.Services
 
         public async Task<List<CharClass>?> GetAllClassesByType(string type)
         {
-            return await client.GetFromJsonAsync<List<CharClass>>($"CharClass/type/{type}");
+            return await client.GetFromJsonAsync<List<CharClass>>($"type/{type}");
         }
 
         public async Task<CharClass?> GetThisCharClass(int id)

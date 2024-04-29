@@ -18,7 +18,7 @@ namespace CharacterBuilderWeb.Services
 
         public async Task<List<RaceVar>?> GetThisVarRaceString(string race)
         {
-            return await _httpClient.GetFromJsonAsync<List<RaceVar>>($"RaceVar/race/{race}");
+            return await _httpClient.GetFromJsonAsync<List<RaceVar>>($"race/{race}");
         }
 
         public async Task<RaceVar?> GetThisVarRaceById(int id)
