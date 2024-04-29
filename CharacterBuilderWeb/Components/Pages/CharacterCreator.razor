@@ -129,7 +129,7 @@
         }
         // get odd character out and set stats.playerId = character.Id and character.StatsId = stats.Id
         Character? oddCharacter = new Character();
-        foreach (var newChar in charlist) {
+        foreach (Character newChar in charlist) {
             if (oldcharlist == null || !oldcharlist.Contains(newChar)) {
                 oddCharacter = newChar;
                 break;
