@@ -25,7 +25,12 @@
     <label for="Pin" class="form-label">Pin</label>
     <InputNumber id="Pin" class="form-control"
                 @bind-Value = "player.Pin" @oninput="CheckValidity"/>
-
+    @if (!pinvalidated) {
+        <div class="alert alert-warning" role="alert">Pin is invalid!</div>
+    }
+    @if (!usernamevalidated) {
+        <div class="alert alert-warning" role="alert">Username is invalid!</div>
+    }
 
 
 
@@ -133,14 +138,14 @@
     private async Task<bool> CheckPinValidity() {
         List<Player>? listplayers = await playerApiService.GetAllPlayers();
         if (listplayers == null || listplayers.Count == 0) {
-            return true;
+            return false;
         } else {
             foreach (Player playercheck in listplayers) {
-                if (playercheck.Pin == player.Pin) {
+                if (playercheck.Username == player.Username && playercheck.Pin == player.Pin) {
                     return true;
                 }
             }
-            return true;
+            return false;
         }
     }
 
