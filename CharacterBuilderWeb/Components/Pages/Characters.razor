@@ -60,9 +60,12 @@
                 @if(character.StatsId == null) {
                     <td></td>
                 } else {
-                    int statsId = (int)character.StatsId;
-                    var stat = statsApiService.GetThisStats(statsId);
-                    <td>@stat.Id</td>
+                    foreach(Stats stat in stats) {
+                        if (character.StatsId == stat.Id) {
+                            <td>@stat.CharLevel</td>
+                            
+                        }
+                    }
                 }
                 @if (!nocharacters) {
                     <td>
@@ -80,7 +83,7 @@
     private List<Player> players = new List<Player>();
     private List<CharRace> races = new List<CharRace>();
     private List<CharClass> classes = new List<CharClass>();
-    private Stats stat = new Stats();
+    private List<Stats> stats = new List<Stats>();
     private bool nocharacters = false;
 
     protected override async Task OnInitializedAsync() {
@@ -95,11 +98,13 @@
         characters = listcharacters ?? new List<Character> { new Character { CharName = "No Characters Yet!" } };
         races = await charRaceApiService.GetAllRacesPerCampaign("Fantasy") ?? new List<CharRace>();
         classes = await charClassApiService.GetAllCharClasses() ?? new List<CharClass>();
+        stats = await statsApiService.GetAllStats() ?? new List<Stats>();
         if(characters.Count == 0) {
             nocharacters = true;
         } else {
             nocharacters = false;
         }
+
     }
 
     private async Task DeleteCharacter(int characterId, int playerId) {

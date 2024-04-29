@@ -10,6 +10,12 @@ namespace CharacterBuilderWeb.Services
             client = httpclient;
         }
 
+        public async Task<List<Stats>?> GetAllStats()
+        {
+            return await client.GetFromJsonAsync<List<Stats>>("Stats");
+
+        }
+
         public async Task<Stats?> GetThisStats(int number)
         {
             return await client.GetFromJsonAsync<Stats>($"Stats/{number}");
