@@ -9,19 +9,40 @@
 @inject CharClassApiService charClassApiService
 @inject StatsApiService statsApiService
 @inject NavigationManager NavigationManager
+@inject ILogger<CharacterCreator> logger
 @rendermode InteractiveServer
 
 <PageTitle>Create Character</PageTitle>
 
 <h1>Create a new character!!</h1>
 
+<h3>To begin, please enter your username and pin to validate player!</h3>
+
 <EditForm Model="@character" OnValidSubmit="@HandleValidSubmit">
-    <label for="CharName" class="form-label">Character</label>
+    <label for="Username" class="form-label">Username</label>
+    <InputText id="Username" class="form-control"
+                @bind-Value = "player.Username" @oninput="CheckValidity"/>
+    <label for="Pin" class="form-label">Pin</label>
+    <InputNumber id="Pin" class="form-control"
+                @bind-Value = "player.Pin" @oninput="CheckValidity"/>
+
+
+
+
+    @if (!playervalidated) {
+        <div class="alert alert-warning" role="alert">Username or Pin is invalid!</div>
+    } else{
+
+    <label for="CharName" class="form-label">Character Name</label>
     <InputText id="CharName" class="form-control" @bind-Value="character.CharName" />
 
+    <label for="RaceId" class="form-label">Character Race</label>
     <select id="RaceId" class="form-control" @bind="character.RaceId">
+        <option value="null">Select A Race</option>
         @foreach (var race in races) {
-            <option value="@race.Id">@race.RaceName</option>
+            if(race.Starter != "No") {
+                <option value="@race.Id">@race.RaceName</option>
+            }
         }
     </select>
 
@@ -44,13 +65,18 @@
             <span>Add</span>
         }
     </button>
+}
 </EditForm>
 
 @code {
     private Character character = new Character();
+    private Player player = new Player();
     private List<CharRace> races = new();
     private List<RaceVar> ?varraces;
     private bool isLoading = false;
+    private bool playervalidated = false;
+    private bool pinvalidated = false;
+    private bool usernamevalidated = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -80,6 +106,42 @@
         Console.WriteLine("I created a character and will now do a navigate!");
 
         NavigationManager.NavigateTo("/characters");
+    }
+
+    private async Task CheckValidity() {
+        usernamevalidated = await CheckUsernameValidity();
+        pinvalidated = await CheckPinValidity();
+        if(playervalidated && pinvalidated) {
+            playervalidated = true;
+        }
+    }
+
+    private async Task<bool> CheckUsernameValidity() {
+        List<Player>? listplayers = await playerApiService.GetAllPlayers();
+        if (listplayers == null || listplayers.Count == 0) {
+            return false;
+        } else {
+            foreach (Player playercheck in listplayers) {
+                if (playercheck.Username == player.Username) {
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
+
+    private async Task<bool> CheckPinValidity() {
+        List<Player>? listplayers = await playerApiService.GetAllPlayers();
+        if (listplayers == null || listplayers.Count == 0) {
+            return true;
+        } else {
+            foreach (Player playercheck in listplayers) {
+                if (playercheck.Pin == player.Pin) {
+                    return true;
+                }
+            }
+            return true;
+        }
     }
 
     private async void OnRaceChange(ChangeEventArgs e, string racebase) {
