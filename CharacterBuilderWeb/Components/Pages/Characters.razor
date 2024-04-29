@@ -1,8 +1,12 @@
 ﻿@page "/characters"
 @using CharacterBuilderShared.Models;
 @using CharacterBuilderWeb.Services;
-@inject PlayerApiService playerApiService;
-@inject CharacterApiService characterApiService;
+@inject PlayerApiService playerApiService
+@inject CharacterApiService characterApiService
+@inject CharRaceApiService charRaceApiService
+@inject RaceVarApiService raceVarApiService
+@inject CharClassApiService charClassApiService
+@inject StatsApiService statsApiService
 @rendermode InteractiveServer
 
 
@@ -23,10 +27,32 @@
     <tbody>
         @foreach (var character in characters) {
             <tr>
-                <td>@character.Id</td>
+                @foreach(Player player in players) {
+                    if(character.PlayerId == player.Id) {
+                        <td>@player.PlayerName</td>
+                    }
+                }
                 <td>@character.CharName</td>
-                <td>@character.ClassId</td>
-                <td>@character.RaceId</td>
+                @if(character.ClassId == 0 || character.ClassId == null) {
+                    <td>No Class</td>
+                } else {
+                    
+                    foreach (CharClass charclass in classes) {
+                        if (character.ClassId == charclass.Id) {
+                            <td>@charclass.ClassName</td>
+                        }
+                    }
+                }
+                @if(character.RaceId == 0 || character.RaceId == null) {
+                    <td>No Race</td>
+                } else {
+                    
+                    foreach (CharRace race in races) {
+                        if (character.RaceId == race.Id) {
+                            <td>@race.RaceName</td>
+                        }
+                    }
+                }
                 <td>@character.StatsId</td>
 
             </tr>
@@ -37,6 +63,9 @@
 @code {
     private List<Character> characters = new List<Character>();
     private List<Player> players = new List<Player>();
+    private List<CharRace> races = new List<CharRace>();
+    private List<CharClass> classes = new List<CharClass>();
+    private Stats stat = new Stats();
 
     protected override async Task OnInitializedAsync() {
         await LoadData();
@@ -47,7 +76,10 @@
         var listplayers = await playerApiService.GetAllPlayers();
         players = listplayers ?? new List<Player> { new Player { Username = "No Players Yet!", Id = 0 } };
         var listcharacters = await characterApiService.GetAllCharacters();
-        characters = listcharacters ?? new List<Character> { new Character {  } };
+        characters = listcharacters ?? new List<Character> { new Character { CharName = "No Characters Yet!" } };
+        races = await charRaceApiService.GetAllRacesPerCampaign("Fantasy") ?? new List<CharRace>();
+        classes = await charClassApiService.GetAllCharClasses() ?? new List<CharClass>();
+        
     }
 
 
