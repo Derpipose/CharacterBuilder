@@ -32,7 +32,7 @@
         <div class="alert alert-warning" role="alert">Username is invalid!</div>
     }
     <p>Username: @usernamevalidated</p>
-    <p>Pin: @pinvalidated</p>
+    <p>Pin: @pinvalidated (You may need to reenter / change something in the username field for this to update properly)</p>
 @* 
     <button type="submit" asp-page-handler="CheckValidity">Proceed</button> *@
 
@@ -49,22 +49,22 @@
     <select id="RaceId" class="form-control" @bind="character.RaceId">
         <option value="null">Select A Race</option>
         @foreach (var race in races) {
-            if(race.Starter != "No") {
+            if(race.Starter != "No" || player.Veteran == true) {
                 <option value="@race.Id">@race.RaceName</option>
             }
         }
     </select>
 
-    <div id="variantDropdown" style="display: none;">
-        <label for="RaceVariantId" class="form-label">Race Variant</label>
-        <select id="RaceVariantId" class="form-control" @bind="character.RaceVariantId">
-            @if(varraces != null && varraces.Count > 0){
-                @foreach (var raceVariant in varraces) {
-                    <option value="@raceVariant.Id">@raceVariant.Variant</option>
-                }
+    <select id="ClassId" class="form-control" @bind="character.ClassId">
+        <option value="null">Select A Class</option>
+        @foreach (var charclass in classes) {
+            if (charclass.Starter != "No" || player.Veteran == true) {
+                <option value="@charclass.Id">@charclass.ClassName</option>
             }
-        </select>
-    </div>
+        }
+    </select>
+    <InputNumber id="level" class="form-control"
+            @bind-Value="stats.CharLevel"/>
     <p></p>
     <button type="submit" class="btn btn-primary" disabled="@isLoading">
         @if (isLoading) {
@@ -81,11 +81,13 @@
     private Character character = new Character();
     private Player player = new Player();
     private List<CharRace> races = new();
+    private List<CharClass> classes = new();
     private List<RaceVar> ?varraces;
     private bool isLoading = false;
     private bool playervalidated = false;
     private bool pinvalidated = false;
     private bool usernamevalidated = false;
+    private Stats stats = new Stats();
 
     protected override async Task OnInitializedAsync()
     {
@@ -95,6 +97,8 @@
     public async Task LoadEverything()
     {
         races = await charRaceApiService.GetAllRacesPerCampaign("Fantasy") ?? new List<CharRace>();
+        classes = await charClassApiService.GetAllCharClasses() ?? new List<CharClass>();
+
     }
 
     // Method to handle form submission
@@ -114,10 +118,29 @@
             return;
         }
 
-
+        List<Character>? oldcharlist = await characterApiService.GetAllCharacterByPlayerId(player.Id);
         character.PlayerId = player.Id;
         await characterApiService.AddThisCharacter(character);
-        logger.LogInformation("I created a character and will now do a navigate!");
+        logger.LogInformation("I created a character and added it to the database!");
+
+        List<Character>? charlist = await characterApiService.GetAllCharacterByPlayerId(player.Id);
+        if(charlist == null) {
+            charlist = new List<Character>();
+        }
+        // get odd character out and set stats.playerId = character.Id and character.StatsId = stats.Id
+        Character? oddCharacter = new Character();
+        foreach (var newChar in charlist) {
+            if (oldcharlist == null || !oldcharlist.Contains(newChar)) {
+                oddCharacter = newChar;
+                break;
+            }
+        }
+        stats.Id = oddCharacter.Id;
+        await statsApiService.AddThisStats(stats);
+        oddCharacter.StatsId = stats.Id;
+        await characterApiService.UpdateThisCharacter(oddCharacter);
+
+        logger.LogInformation("I updated a character and hopefully added stats and will now do a navigate!");
 
         NavigationManager.NavigateTo("/characters");
     }
@@ -163,8 +186,5 @@
         }
     }
 
-    private async void OnRaceChange(ChangeEventArgs e, string racebase) {
-        var thisvarraces = await raceVarApiService.GetThisVarRaceString(racebase);
-        varraces = thisvarraces;
-    }
+
 }
