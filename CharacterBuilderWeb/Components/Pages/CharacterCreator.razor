@@ -32,7 +32,7 @@
         <div class="alert alert-warning" role="alert">Username is valid!</div>
     }
 
-    <button @onactivate="CheckValidity">Proceed</button>
+    <button type="submit" asp-page-handler="CheckValidity">Proceed</button>
 
 
     @if (!playervalidated) {
