@@ -31,6 +31,8 @@
     @if (usernamevalidated) {
         <div class="alert alert-warning" role="alert">Username is valid!</div>
     }
+    <p>Username: @usernamevalidated</p>
+    <p>Pin: @pinvalidated</p>
 
     <button type="submit" asp-page-handler="CheckValidity">Proceed</button>
 
