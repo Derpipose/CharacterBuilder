@@ -108,14 +108,21 @@
             return;
         }
 
-        //TODO: Create way to check if username has been used already and throw the form back to get a new
-        //user name if that is the case.
+        await CheckValidity();
+        if (!playervalidated) {
+            isLoading = false;
+            return;
+        }
 
+
+        character.PlayerId = player.Id;
         await characterApiService.AddThisCharacter(character);
-        Console.WriteLine("I created a character and will now do a navigate!");
+        logger.LogInformation("I created a character and will now do a navigate!");
 
         NavigationManager.NavigateTo("/characters");
     }
+
+
 
     private async Task CheckValidity() {
         usernamevalidated = await CheckUsernameValidity();
@@ -133,7 +140,7 @@
         } else {
             foreach (Player playercheck in listplayers) {
                 if (playercheck.Username == player.Username) {
-                    StateHasChanged();
+                    player.Id = playercheck.Id;
                     return true;
                 }
             }
