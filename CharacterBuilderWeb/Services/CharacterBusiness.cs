@@ -37,7 +37,7 @@ namespace CharacterBuilderWeb.Services
             Character? oddCharacter = new Character();
             foreach (Character newChar in charlist)
             {
-                if (oldcharlist.FirstOrDefault(c => c.Id == newChar.Id) != null)
+                if (oldcharlist?.FirstOrDefault(c => c.Id == newChar.Id) != null)
                 {
                     oddCharacter = newChar;
                     break;
