@@ -48,7 +48,7 @@ builder.Services.AddScoped<RaceVarApiService>(provider =>
     return new RaceVarApiService(httpclient);
 });
 
-builder.Services.AddScoped<StatsApiService>(provider =>
+builder.Services.AddScoped<IStatsApiService>(provider =>
 {
     HttpClient httpclient = new HttpClient { BaseAddress = new Uri(uri) };
     return new StatsApiService(httpclient);

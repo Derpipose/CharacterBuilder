@@ -223,7 +223,7 @@ namespace CharacterTests
             Assert.That(character1.CharName, Is.EqualTo("B"));
         }
 
-        
+
 
 
 

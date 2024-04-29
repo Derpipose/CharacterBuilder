@@ -2,7 +2,7 @@
 
 namespace CharacterBuilderWeb.Services
 {
-    public class StatsApiService
+    public class StatsApiService : IStatsApiService
     {
         private readonly HttpClient client;
         public StatsApiService(HttpClient httpclient)

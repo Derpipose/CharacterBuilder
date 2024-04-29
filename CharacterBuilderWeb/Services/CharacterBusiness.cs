@@ -12,8 +12,8 @@ namespace CharacterBuilderWeb.Services
     {
         private readonly ILogger<CharacterBusiness> logger;
         private ICharacterApiService characterApiService;
-        private StatsApiService statsApiService;
-        public CharacterBusiness(ICharacterApiService service, ILogger<CharacterBusiness> _logger, StatsApiService stats)
+        private IStatsApiService statsApiService;
+        public CharacterBusiness(ICharacterApiService service, ILogger<CharacterBusiness> _logger, IStatsApiService stats)
         {
             logger = _logger;
             statsApiService = stats;
@@ -35,14 +35,25 @@ namespace CharacterBuilderWeb.Services
             }
             // get odd character out and set stats.playerId = character.Id and character.StatsId = stats.Id
             Character? oddCharacter = new Character();
-            foreach (Character newChar in charlist)
+
+            oddCharacter = charlist.FirstOrDefault(c => !oldcharlist.Select(oldc => oldc.Id).Contains(c.Id));
+            /*foreach (Character newChar in charlist)
             {
+                *//*foreach(Character oldChar in oldcharlist)
+                {
+                    if(oldChar.Id != newChar.Id)
+                    {
+
+                    }
+                }*//*
+                oddCharacter = oldcharlist?.FirstOrDefault(c => c.Id != newChar.Id);
+
                 if (oldcharlist?.FirstOrDefault(c => c.Id == newChar.Id) != null)
                 {
                     oddCharacter = newChar;
                     break;
                 }
-            }
+            }*/
             workingstats.Id = oddCharacter.Id;
             await statsApiService.AddThisStats(workingstats);
             oddCharacter.StatsId = workingstats.Id;
