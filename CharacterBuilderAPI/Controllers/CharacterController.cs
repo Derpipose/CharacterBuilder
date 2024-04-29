@@ -22,7 +22,7 @@ namespace CharacterBuilderAPI.Controllers
             return await _CharacterService.GetAllCharacters();
         }
 
-        [HttpGet("/player/{id}")]
+        [HttpGet("/character/player/{id}")]
         public async Task<IEnumerable<Character>> GetAllCharactersByPlayerId(int id)
         {
             return await _CharacterService.GetAllCharactersByPlayer(id);

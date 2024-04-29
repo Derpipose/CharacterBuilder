@@ -18,7 +18,7 @@ namespace CharacterBuilderWeb.Services
 
         public async Task<List<Character>?> GetAllCharacterByPlayerId(int id)
         {
-            return await client.GetFromJsonAsync<List<Character>>($"Character/player/{id}");
+            return await client.GetFromJsonAsync<List<Character>>($"Character/character/player/{id}");
         }
 
         public async Task<Character?> GetThisCharacter(int id)
