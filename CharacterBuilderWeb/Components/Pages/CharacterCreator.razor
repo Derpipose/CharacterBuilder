@@ -127,7 +127,7 @@
     private async Task CheckValidity() {
         usernamevalidated = await CheckUsernameValidity();
         pinvalidated = await CheckPinValidity();
-        if(playervalidated && pinvalidated) {
+        if(usernamevalidated && pinvalidated) {
             playervalidated = true;
         }
         StateHasChanged();
