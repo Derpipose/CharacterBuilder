@@ -29,6 +29,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CharacterBuilderShared\CharacterBuilderShared.csproj" />
+    <ProjectReference Include="..\CharacterBuilderWeb\CharacterBuilderWeb.csproj" />
   </ItemGroup>
 
   <ItemGroup>
