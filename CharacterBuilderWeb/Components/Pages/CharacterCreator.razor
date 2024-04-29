@@ -9,6 +9,7 @@
 @inject CharClassApiService charClassApiService
 @inject StatsApiService statsApiService
 @inject NavigationManager NavigationManager
+@inject CharacterBusiness characterBusiness
 @inject ILogger<CharacterCreator> logger
 @rendermode InteractiveServer
 
@@ -118,34 +119,14 @@
             return;
         }
 
-        List<Character>? oldcharlist = await characterApiService.GetAllCharacterByPlayerId(player.Id);
-        character.PlayerId = player.Id;
-        await characterApiService.AddThisCharacter(character);
-        logger.LogInformation("I created a character and added it to the database!");
-
-        List<Character>? charlist = await characterApiService.GetAllCharacterByPlayerId(player.Id);
-        if(charlist == null) {
-            charlist = new List<Character>();
-        }
-        // get odd character out and set stats.playerId = character.Id and character.StatsId = stats.Id
-        Character? oddCharacter = new Character();
-        foreach (Character newChar in charlist) {
-            if (oldcharlist == null || !oldcharlist.Contains(newChar)) {
-                oddCharacter = newChar;
-                break;
-            }
-        }
-        stats.Id = oddCharacter.Id;
-        await statsApiService.AddThisStats(stats);
-        oddCharacter.StatsId = stats.Id;
-        await characterApiService.UpdateThisCharacter(oddCharacter);
+        await characterBusiness.GiveStats(character, stats, player);
 
         logger.LogInformation("I updated a character and hopefully added stats and will now do a navigate!");
 
         NavigationManager.NavigateTo("/characters");
     }
 
-
+   
 
     private async Task CheckValidity() {
         usernamevalidated = await CheckUsernameValidity();

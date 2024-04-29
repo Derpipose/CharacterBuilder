@@ -53,6 +53,7 @@ builder.Services.AddScoped<StatsApiService>(provider =>
     HttpClient httpclient = new HttpClient { BaseAddress = new Uri(uri) };
     return new StatsApiService(httpclient);
 });
+builder.Services.AddScoped<CharacterBusiness>();
 
 
 builder.Services.AddRazorComponents().AddInteractiveServerComponents();
