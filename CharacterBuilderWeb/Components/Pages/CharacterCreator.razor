@@ -21,10 +21,10 @@
 <EditForm Model="@character" OnValidSubmit="@HandleValidSubmit">
     <label for="Username" class="form-label">Username</label>
     <InputText id="Username" class="form-control"
-                @bind-Value = "player.Username"/>
+               @bind-Value="player.Username" @oninput="CheckUsernameValidity" />
     <label for="Pin" class="form-label">Pin</label>
     <InputNumber id="Pin" class="form-control"
-                @bind-Value = "player.Pin"/>
+                 @bind-Value="player.Pin" @oninput="CheckPinValidity" />
     @if (pinvalidated) {
         <div class="alert alert-warning" role="alert">Pin is valid!</div>
     }
@@ -33,14 +33,14 @@
     }
     <p>Username: @usernamevalidated</p>
     <p>Pin: @pinvalidated</p>
+@* 
+    <button type="submit" asp-page-handler="CheckValidity">Proceed</button> *@
 
-    <button type="submit" asp-page-handler="CheckValidity">Proceed</button>
 
-
-    @if (!playervalidated) {
+    @if (!pinvalidated && !usernamevalidated) {
         <div class="alert alert-warning" role="alert">Username or Pin is invalid!</div>
     }
-    @if(playervalidated){
+    @if(pinvalidated && usernamevalidated){
 
     <label for="CharName" class="form-label">Character Name</label>
     <InputText id="CharName" class="form-control" @bind-Value="character.CharName" />
@@ -133,6 +133,7 @@
         } else {
             foreach (Player playercheck in listplayers) {
                 if (playercheck.Username == player.Username) {
+                    StateHasChanged();
                     return true;
                 }
             }
@@ -147,6 +148,7 @@
         } else {
             foreach (Player playercheck in listplayers) {
                 if (playercheck.Username == player.Username && playercheck.Pin == player.Pin) {
+                    StateHasChanged();
                     return true;
                 }
             }
