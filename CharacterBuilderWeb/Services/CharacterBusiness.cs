@@ -23,7 +23,11 @@ namespace CharacterBuilderWeb.Services
 
         public async Task GiveStats(Character workingcharacter, Stats workingstats, Player workingplayer)
         {
-            List<Character>? oldcharlist = await characterApiService.GetAllCharacterByPlayerId(workingplayer.Id);
+            List<Character> ?oldcharlist = await characterApiService.GetAllCharacterByPlayerId(workingplayer.Id) ?? null;
+            if (oldcharlist == null)
+            {
+                oldcharlist = new List<Character>();
+            }
             workingcharacter.PlayerId = workingplayer.Id;
             await characterApiService.AddThisCharacter(workingcharacter);
             logger.LogInformation("I created a character and added it to the database!");
@@ -54,6 +58,11 @@ namespace CharacterBuilderWeb.Services
                     break;
                 }
             }*/
+
+            if (oddCharacter == null)
+            {
+                oddCharacter = new Character();
+            }
             workingstats.Id = oddCharacter.Id;
             await statsApiService.AddThisStats(workingstats);
             oddCharacter.StatsId = workingstats.Id;
