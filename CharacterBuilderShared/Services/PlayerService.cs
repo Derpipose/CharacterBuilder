@@ -72,7 +72,7 @@ namespace CharacterBuilderShared.Models
             var player = await _DbContext.Player.Where(T => T.Id == id).FirstOrDefaultAsync();
             if (player != null)
             {
-                
+
 
                 var loggerFactory = new LoggerFactory();
                 var statslogger = loggerFactory.CreateLogger<Stats>();

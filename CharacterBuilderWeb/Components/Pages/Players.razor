@@ -81,6 +81,8 @@
         var player = players.FirstOrDefault(p => p.Id == playerId && p.Pin == enteredPin);
         if (player != null) {
             await playerApiService.DeleteThisPlayer(playerId);
+            await LoadPlayerData();
+            Thread.Sleep(100);
             StateHasChanged();
         } else {
             logger.LogInformation("Pin entered insuccessfully for player deletion");
