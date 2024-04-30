@@ -55,7 +55,7 @@
             }
         }
     </select>
-
+    <label for="ClassId" class="form-label">Character Class</label>
     <select id="ClassId" class="form-control" @bind="character.ClassId">
         <option value="null">Select A Class</option>
         @foreach (var charclass in classes) {
@@ -64,6 +64,7 @@
             }
         }
     </select>
+    <label for="level" class="form-label">Character Level</label>
     <InputNumber id="level" class="form-control"
             @bind-Value="stats.CharLevel"/>
     <p></p>
