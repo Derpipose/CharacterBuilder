@@ -120,6 +120,8 @@
         var player = players.FirstOrDefault(p => p.Id == playerId && p.Pin == enteredPin);
         if (player != null) {
             await characterApiService.DeleteThisCharacter(characterId);
+            await LoadData();
+            Thread.Sleep(100);
             StateHasChanged();
         } else {
             logger.LogInformation("Pin entered insuccessfully for character deletion");
