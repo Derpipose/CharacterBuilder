@@ -26,13 +26,13 @@
     <label for="Pin" class="form-label">Pin</label>
     <InputNumber id="Pin" class="form-control"
                  @bind-Value="player.Pin" @oninput="CheckValidity" />
-    @if (!pinvalidated) {
+    @* @if (!pinvalidated) {
         <div class="alert alert-warning" role="alert">Pin is invalid!</div>
     }
     @if (!usernamevalidated) {
         <div class="alert alert-warning" role="alert">Username is invalid!</div>
     }
-    <p>Username: @usernamevalidated</p>
+    <p>Username: @usernamevalidated</p> *@
     <p>Pin: @pinvalidated (You may need to reenter / change something in the username field for this to update properly)</p>
 @* 
     <button type="submit" asp-page-handler="CheckValidity">Proceed</button> *@
