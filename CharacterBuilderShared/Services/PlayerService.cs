@@ -72,10 +72,7 @@ namespace CharacterBuilderShared.Models
             var player = await _DbContext.Player.Where(T => T.Id == id).FirstOrDefaultAsync();
             if (player != null)
             {
-                _DbContext.Player.Remove(player);
-                CharacterMonitoring.playerupDownCounter.Add(-1);
-                CharacterMonitoring.playerdeletecounter += 1;
-                LogFunctionMessage(_logger, "deleted");
+                
 
                 var loggerFactory = new LoggerFactory();
                 var statslogger = loggerFactory.CreateLogger<Stats>();
@@ -91,6 +88,11 @@ namespace CharacterBuilderShared.Models
                         await charservice.DeleteCharacter(character.Id);
                     }
                 }
+
+                _DbContext.Player.Remove(player);
+                CharacterMonitoring.playerupDownCounter.Add(-1);
+                CharacterMonitoring.playerdeletecounter += 1;
+                LogFunctionMessage(_logger, "deleted");
             }
 
             // else {
