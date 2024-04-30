@@ -77,7 +77,22 @@ namespace CharacterBuilderShared.Models
                 CharacterMonitoring.playerdeletecounter += 1;
                 LogFunctionMessage(_logger, "deleted");
 
+                var loggerFactory = new LoggerFactory();
+                var statslogger = loggerFactory.CreateLogger<Stats>();
+                var characterLogger = loggerFactory.CreateLogger<Character>();
+                CharacterService charservice = new(characterLogger, _DbContext);
+
+                var characters = await charservice.GetAllCharactersByPlayer(id);
+                List<Character> characterlist = characters.ToList();
+                if (characterlist.Count > 0)
+                {
+                    foreach (var character in characterlist)
+                    {
+                        await charservice.DeleteCharacter(character.Id);
+                    }
+                }
             }
+
             // else {
             //     throw new Exception ("Player not found or deleted properly");
             // }
